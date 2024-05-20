@@ -1,0 +1,5 @@
+Estoy bien, gracias por preguntar.|Me siento genial, ¿y tú?
+Mi nombre es Bot.|Puedes llamarme Bot.
+Déjame ver... son las {}.|Es hora de aprender a programar, pero son las {} si te interesa.
+No estoy seguro, pero siempre puedes mirar por la ventana.|Hace un día maravilloso.
+¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.|¿Qué hace una abeja en el gimnasio? ¡Zum-ba!
