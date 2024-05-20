@@ -8,7 +8,8 @@ from funciones import (
     guardar_voz_seleccionada, 
     cargar_voz_seleccionada, 
     hablar,
-    agregar_pregunta_respuesta
+    agregar_pregunta_respuesta,
+    retroalimentar_respuesta
 )
 import pyttsx3
 
@@ -30,7 +31,7 @@ def main():
                 print(f"Error: {e}. Por favor, elige un número válido.")
 
     preguntas_respuestas = cargar_preguntas_respuestas()
-    saludo_inicial = "¡Hola! Soy tu asistente virtual. Puedes hacerme preguntas, pedirme que te cuente una broma o enseñarme nuevas preguntas y respuestas."
+    saludo_inicial = "¡Hola! Como te ayudo hoy?."
     print(saludo_inicial)
     hablar(saludo_inicial, voz_id)
     
@@ -45,10 +46,15 @@ def main():
             agregar_pregunta_respuesta(preguntas_respuestas)
         else:
             respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
-            if "{}" in respuesta:
-                respuesta = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
-            print("Respuesta: ", respuesta)
-            hablar(respuesta, voz_id)
+            if respuesta:
+                respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
+                print("Respuesta: ", respuesta_formateada)
+                hablar(respuesta_formateada, voz_id)
+            else:
+                print("Lo siento, no tengo una respuesta para esa pregunta.")
+                retroalimentar = input("¿Deseas proporcionar una respuesta para esta pregunta? (escribe 'si' para confirmar): ")
+                if retroalimentar.lower() == "si":
+                    retroalimentar_respuesta("", pregunta, preguntas_respuestas)
 
 if __name__ == "__main__":
     main()

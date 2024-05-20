@@ -76,3 +76,26 @@ def agregar_pregunta_respuesta(preguntas_respuestas):
         preguntas_respuestas[nueva_pregunta] = [nueva_respuesta]
     guardar_preguntas_respuestas(preguntas_respuestas)
     print("Nueva pregunta y respuesta guardadas.")
+
+
+
+def obtener_respuesta(pregunta, preguntas_respuestas):
+    pregunta = pregunta.lower()
+    respuestas = []
+    for key in preguntas_respuestas:
+        if key.lower() in pregunta:
+            respuestas.extend(preguntas_respuestas[key])  # Agregamos las respuestas para esta pregunta
+    if respuestas:
+        return random.choice(respuestas)  # Devolvemos una respuesta aleatoria
+    else:
+        return None  # Si no se encontró una respuesta, devolvemos None
+
+
+def retroalimentar_respuesta(respuesta_correcta, pregunta, preguntas_respuestas):
+    nueva_respuesta = input(f"La respuesta \"{respuesta_correcta}\" no es correcta para la pregunta \"{pregunta}\". Por favor, introduce la respuesta correcta: ").strip()
+    if pregunta in preguntas_respuestas:
+        preguntas_respuestas[pregunta].append(nueva_respuesta)
+    else:
+        preguntas_respuestas[pregunta] = [nueva_respuesta]
+    guardar_preguntas_respuestas(preguntas_respuestas)
+    print("Nueva respuesta guardada.")
