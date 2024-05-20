@@ -1,19 +1,18 @@
 import pyttsx3
 import random
 import datetime
+import json
 
 def cargar_preguntas_respuestas():
-    with open('preguntas.txt', 'r', encoding='utf-8') as f_preguntas:
-        preguntas = [linea.strip() for linea in f_preguntas.readlines()]
-    with open('respuestas.txt', 'r', encoding='utf-8') as f_respuestas:
-        respuestas = [linea.strip() for linea in f_respuestas.readlines()]
-    return preguntas, respuestas
+    with open('preguntas_respuestas.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data['preguntas']
 
-def obtener_respuesta(pregunta, preguntas, respuestas):
+def obtener_respuesta(pregunta, preguntas_respuestas):
     pregunta = pregunta.lower()
-    for i, key in enumerate(preguntas):
+    for key in preguntas_respuestas:
         if key.lower() in pregunta:
-            return random.choice(respuestas[i].split('|'))
+            return random.choice(preguntas_respuestas[key])
     return "Lo siento, no entiendo esa pregunta."
 
 def listar_voces():

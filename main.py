@@ -1,5 +1,4 @@
 import datetime
-import pyttsx3
 from funciones import (
     cargar_preguntas_respuestas, 
     obtener_respuesta, 
@@ -10,6 +9,7 @@ from funciones import (
     cargar_voz_seleccionada, 
     hablar
 )
+import pyttsx3
 
 def main():
     voz_id = cargar_voz_seleccionada()
@@ -28,7 +28,7 @@ def main():
             print(f"Error: {e}. Usando la voz por defecto.")
             voz_id = None
 
-    preguntas, respuestas = cargar_preguntas_respuestas()
+    preguntas_respuestas = cargar_preguntas_respuestas()
     print("¡Hola! Soy tu asistente virtual. Puedes hacerme preguntas o pedirme que te cuente una broma.")
     while True:
         pregunta = input("Hazme una pregunta (o escribe 'salir' para terminar): ")
@@ -37,7 +37,7 @@ def main():
             print(despedida)
             hablar(despedida, voz_id)
             break
-        respuesta = obtener_respuesta(pregunta, preguntas, respuestas)
+        respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
         if "{}" in respuesta:
             respuesta = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
         print("Respuesta: ", respuesta)
