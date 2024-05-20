@@ -7,7 +7,8 @@ from funciones import (
     confirmar_voz, 
     guardar_voz_seleccionada, 
     cargar_voz_seleccionada, 
-    hablar
+    hablar,
+    agregar_pregunta_respuesta
 )
 import pyttsx3
 
@@ -16,32 +17,38 @@ def main():
     if not voz_id:
         print("Voces disponibles:")
         voces = listar_voces()
-        indice = int(input("Elige el número de la voz que quieres utilizar: "))
-        try:
-            voz_id = seleccionar_voz_por_indice(pyttsx3.init(), indice)
-            if confirmar_voz(voz_id):
-                guardar_voz_seleccionada(voz_id)
-            else:
-                print("Selección de voz no confirmada. Usando la voz por defecto.")
-                voz_id = None
-        except IndexError as e:
-            print(f"Error: {e}. Usando la voz por defecto.")
-            voz_id = None
+        while True:
+            try:
+                indice = int(input("Elige el número de la voz que quieres utilizar: "))
+                voz_id = seleccionar_voz_por_indice(pyttsx3.init(), indice)
+                if confirmar_voz(voz_id):
+                    guardar_voz_seleccionada(voz_id)
+                    break
+                else:
+                    print("Selección de voz no confirmada. Inténtalo de nuevo.")
+            except (IndexError, ValueError) as e:
+                print(f"Error: {e}. Por favor, elige un número válido.")
 
     preguntas_respuestas = cargar_preguntas_respuestas()
-    print("¡Hola! Soy tu asistente virtual. Puedes hacerme preguntas o pedirme que te cuente una broma.")
+    saludo_inicial = "¡Hola! Soy tu asistente virtual. Puedes hacerme preguntas, pedirme que te cuente una broma o enseñarme nuevas preguntas y respuestas."
+    print(saludo_inicial)
+    hablar(saludo_inicial, voz_id)
+    
     while True:
-        pregunta = input("Hazme una pregunta (o escribe 'salir' para terminar): ")
+        pregunta = input("Hazme una pregunta (o escribe 'salir' para terminar, 'agregar' para agregar nuevas preguntas y respuestas): ")
         if pregunta.lower() == "salir":
             despedida = "¡Hasta luego! Fue un placer ayudarte."
             print(despedida)
             hablar(despedida, voz_id)
             break
-        respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
-        if "{}" in respuesta:
-            respuesta = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
-        print("Respuesta: ", respuesta)
-        hablar(respuesta, voz_id)
+        elif pregunta.lower() == "agregar":
+            agregar_pregunta_respuesta(preguntas_respuestas)
+        else:
+            respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
+            if "{}" in respuesta:
+                respuesta = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
+            print("Respuesta: ", respuesta)
+            hablar(respuesta, voz_id)
 
 if __name__ == "__main__":
     main()

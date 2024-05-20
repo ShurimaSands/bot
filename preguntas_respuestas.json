@@ -1,9 +1,27 @@
 {
     "preguntas": {
-        "Como estas?": ["Estoy bien, gracias por preguntar.", "Me siento genial, ¿y tú?"],
-        "Cual es tu nombre?": ["Mi nombre es Bot.", "Puedes llamarme Bot."],
-        "Que hora es?": ["Déjame ver... son las {}.", "Es hora de aprender a programar, pero son las {} si te interesa."],
-        "Que tiempo hace hoy?": ["No estoy seguro, pero siempre puedes mirar por la ventana.", "Hace un día maravilloso."],
-        "Cuentame una broma": ["¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.", "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!"]
+        "Como estas?": [
+            "Estoy bien, gracias por preguntar.",
+            "Me siento genial, ¿y tú?"
+        ],
+        "Cual es tu nombre?": [
+            "Mi nombre es Bot.",
+            "Puedes llamarme Bot."
+        ],
+        "Que hora es?": [
+            "Déjame ver... son las {}.",
+            "Es hora de aprender a programar, pero son las {} si te interesa."
+        ],
+        "Que tiempo hace hoy?": [
+            "No estoy seguro, pero siempre puedes mirar por la ventana.",
+            "Hace un día maravilloso."
+        ],
+        "Cuentame un chiste": [
+            "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.",
+            "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!"
+        ],
+        "quien es tu padre?": [
+            "Mi padre es Pragmir"
+        ]
     }
 }

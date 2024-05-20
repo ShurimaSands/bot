@@ -4,9 +4,17 @@ import datetime
 import json
 
 def cargar_preguntas_respuestas():
-    with open('preguntas_respuestas.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    return data['preguntas']
+    try:
+        with open('preguntas_respuestas.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return data['preguntas']
+    except FileNotFoundError:
+        print("Archivo preguntas_respuestas.json no encontrado. Creando uno nuevo...")
+        return {}
+
+def guardar_preguntas_respuestas(preguntas_respuestas):
+    with open('preguntas_respuestas.json', 'w', encoding='utf-8') as f:
+        json.dump({'preguntas': preguntas_respuestas}, f, ensure_ascii=False, indent=4)
 
 def obtener_respuesta(pregunta, preguntas_respuestas):
     pregunta = pregunta.lower()
@@ -58,3 +66,13 @@ def hablar(texto, voz_id=None):
     motor.setProperty('rate', 150)
     motor.say(texto)
     motor.runAndWait()
+
+def agregar_pregunta_respuesta(preguntas_respuestas):
+    nueva_pregunta = input("Introduce la nueva pregunta: ").strip()
+    nueva_respuesta = input("Introduce la respuesta para esa pregunta: ").strip()
+    if nueva_pregunta in preguntas_respuestas:
+        preguntas_respuestas[nueva_pregunta].append(nueva_respuesta)
+    else:
+        preguntas_respuestas[nueva_pregunta] = [nueva_respuesta]
+    guardar_preguntas_respuestas(preguntas_respuestas)
+    print("Nueva pregunta y respuesta guardadas.")
