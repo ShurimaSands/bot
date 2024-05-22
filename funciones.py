@@ -100,8 +100,9 @@ def buscar_en_google(query):
 
 def acciones_especiales(pregunta):
     if "clima" in pregunta:
-        ciudad = pregunta.split("en")[-1].strip()  # Extrae la ciudad de la pregunta
+        ciudad = pregunta.split("en")[-1].strip()
         return buscar_en_google(f"clima en {ciudad}")
     elif "hora" in pregunta:
         return buscar_en_google("hora actual")
-    return None
+    else:
+        return buscar_en_google(pregunta)
