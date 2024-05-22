@@ -9,7 +9,8 @@ from funciones import (
     cargar_voz_seleccionada, 
     hablar,
     agregar_pregunta_respuesta,
-    retroalimentar_respuesta
+    retroalimentar_respuesta,
+    acciones_especiales
 )
 import pyttsx3
 
@@ -31,7 +32,7 @@ def main():
                 print(f"Error: {e}. Por favor, elige un número válido.")
 
     preguntas_respuestas = cargar_preguntas_respuestas()
-    saludo_inicial = "¡Hola! Como te ayudo hoy?."
+    saludo_inicial = "¡Hola! ¿Cómo te puedo ayudar hoy?"
     print(saludo_inicial)
     hablar(saludo_inicial, voz_id)
     
@@ -45,16 +46,21 @@ def main():
         elif pregunta.lower() == "agregar":
             agregar_pregunta_respuesta(preguntas_respuestas)
         else:
-            respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
-            if respuesta:
-                respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
-                print("Respuesta: ", respuesta_formateada)
-                hablar(respuesta_formateada, voz_id)
+            respuesta_especial = acciones_especiales(pregunta)
+            if respuesta_especial:
+                print("Respuesta: ", respuesta_especial)
+                hablar(respuesta_especial, voz_id)
             else:
-                print("Lo siento, no tengo una respuesta para esa pregunta.")
-                retroalimentar = input("¿Deseas proporcionar una respuesta para esta pregunta? (escribe 'si' para confirmar): ")
-                if retroalimentar.lower() == "si":
-                    retroalimentar_respuesta("", pregunta, preguntas_respuestas)
+                respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
+                if respuesta:
+                    respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
+                    print("Respuesta: ", respuesta_formateada)
+                    hablar(respuesta_formateada, voz_id)
+                else:
+                    print("Lo siento, no tengo una respuesta para esa pregunta.")
+                    retroalimentar = input("¿Deseas proporcionar una respuesta para esta pregunta? (escribe 'si' para confirmar): ")
+                    if retroalimentar.lower() == "si":
+                        retroalimentar_respuesta("", pregunta, preguntas_respuestas)
 
 if __name__ == "__main__":
     main()
