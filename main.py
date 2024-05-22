@@ -15,6 +15,14 @@ from funciones import (
 )
 import pyttsx3
 
+# Variable para mantener el contexto de la conversación
+contexto = []
+
+def agregar_contexto(pregunta, respuesta):
+    if len(contexto) >= 5:
+        contexto.pop(0)
+    contexto.append((pregunta, respuesta))
+
 def main():
     voz_id = cargar_voz_seleccionada()
     if not voz_id:
@@ -52,11 +60,13 @@ def main():
                 respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
                 print("Respuesta: ", respuesta_formateada)
                 hablar(respuesta_formateada, voz_id)
+                agregar_contexto(pregunta, respuesta_formateada)
             else:
                 respuesta_especial = acciones_especiales(pregunta, preguntas_respuestas)
                 if respuesta_especial:
                     print("Respuesta: ", respuesta_especial)
                     hablar(respuesta_especial, voz_id)
+                    agregar_contexto(pregunta, respuesta_especial)
                 else:
                     print("Lo siento, no tengo una respuesta para esa pregunta.")
                     retroalimentar = input("¿Deseas proporcionar una respuesta para esta pregunta? (escribe 'si' para confirmar): ")

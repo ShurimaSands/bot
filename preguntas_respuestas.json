@@ -13,10 +13,6 @@
             "Déjame ver... son las {}.",
             "Es hora de aprender a programar, pero son las {} si te interesa."
         ],
-        "Que tiempo hace hoy?": [
-            "No estoy seguro, pero siempre puedes mirar por la ventana.",
-            "Hace un día maravilloso."
-        ],
         "Cuentame un chiste": [
             "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.",
             "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!"
@@ -36,11 +32,51 @@
         "Cuantos grados puede soportar un ser humano?": [
             "Tras este ejemplo de alta temperatura ambiental, cabe hacerse la pregunta ¿cuál es la temperaturas máxima que puede aguantar un ser humano? Los científicos han determinado que el límite en el que ya no somos capaces de regular nuestra temperatura corporal está entre 40 y 50 grados Celsius.7 feb 2024"
         ],
-        "Cual es el clima de hoy en quilpue?": [
-            "11°C"
-        ],
         "Quue carreras imparte Duoc Uc?": [
             "Carreras ProfesionalesIngeniería en Administración mención Finanzas.Ingeniería en Construcción.Ingeniería en Gestión Logística.Ingeniería en Informática."
-        ]
+        ],
+        "Cuanta gente vive en Chile?": [
+            "19.6 millones (2022)"
+        ],
+        "Quien es bill gates?": [
+            "Bill Gates, cofundador de Microsoft, sigue acumulando una fortuna que desafía la imaginación. En 2023, logró incrementar su patrimonio de manera asombrosa, generando una cantidad de dinero por día que deja boquiabiertos a muchos."
+        ],
+        "Quien descubrio America?": {
+            "respuestas": [
+                "De esta manera, el 12 de octubre de 1492 Cristóbal Colón llegó a lo que hoy conocemos como América al encontrarse con las Antillas y desembarcar en la isla de Guanahaní, misma que bautizó con el nombre de San Salvador (posteriormente arribó a los actuales territorios de Santo Domingo y Cuba).11 oct 2019"
+            ],
+            "entidades": [
+                [
+                    "Quien descubrio America",
+                    "ORG"
+                ]
+            ]
+        },
+        "Sigue contandome de lo anterior": {
+            "respuestas": [
+                "Curso.Ortografía y Redacción - Google Docs"
+            ],
+            "entidades": [
+                [
+                    "de lo",
+                    "PERSON"
+                ]
+            ]
+        },
+        "Que hora es en Chile?": {
+            "respuestas": [
+                "6:25 p.m."
+            ],
+            "entidades": [
+                [
+                    "Que hora",
+                    "PERSON"
+                ],
+                [
+                    "Chile",
+                    "GPE"
+                ]
+            ]
+        }
     }
 }
