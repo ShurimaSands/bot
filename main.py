@@ -10,7 +10,8 @@ from funciones import (
     hablar,
     agregar_pregunta_respuesta,
     retroalimentar_respuesta,
-    acciones_especiales
+    acciones_especiales,
+    guardar_pregunta_no_respondida
 )
 import pyttsx3
 
@@ -46,7 +47,7 @@ def main():
         elif pregunta.lower() == "agregar":
             agregar_pregunta_respuesta(preguntas_respuestas)
         else:
-            respuesta_especial = acciones_especiales(pregunta)
+            respuesta_especial = acciones_especiales(pregunta, preguntas_respuestas)
             if respuesta_especial:
                 print("Respuesta: ", respuesta_especial)
                 hablar(respuesta_especial, voz_id)
@@ -61,6 +62,8 @@ def main():
                     retroalimentar = input("¿Deseas proporcionar una respuesta para esta pregunta? (escribe 'si' para confirmar): ")
                     if retroalimentar.lower() == "si":
                         retroalimentar_respuesta("", pregunta, preguntas_respuestas)
+                    else:
+                        guardar_pregunta_no_respondida(pregunta, preguntas_respuestas)
 
 if __name__ == "__main__":
     main()

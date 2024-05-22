@@ -93,16 +93,36 @@ def buscar_en_google(query):
     response = requests.get(f"https://www.google.com/search?q={query}", headers=headers)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        respuesta = soup.find('div', class_='BNeawe').text
-        return respuesta
+        resultado = soup.find('div', class_='BNeawe')
+        if resultado:
+            return resultado.text
+        else:
+            return "Lo siento, no pude encontrar una respuesta clara en Google."
     else:
         return "Lo siento, no pude obtener la información de Google."
 
-def acciones_especiales(pregunta):
+def acciones_especiales(pregunta, preguntas_respuestas):
+    respuesta = None
     if "clima" in pregunta:
         ciudad = pregunta.split("en")[-1].strip()
-        return buscar_en_google(f"clima en {ciudad}")
+        respuesta = buscar_en_google(f"clima en {ciudad}")
     elif "hora" in pregunta:
-        return buscar_en_google("hora actual")
+        respuesta = buscar_en_google("hora actual")
     else:
-        return buscar_en_google(pregunta)
+        respuesta = buscar_en_google(pregunta)
+    
+    if respuesta and respuesta != "Lo siento, no pude encontrar una respuesta clara en Google.":
+        if pregunta not in preguntas_respuestas:
+            preguntas_respuestas[pregunta] = [respuesta]
+        else:
+            preguntas_respuestas[pregunta].append(respuesta)
+        guardar_preguntas_respuestas(preguntas_respuestas)
+    
+    return respuesta
+
+def guardar_pregunta_no_respondida(pregunta, preguntas_respuestas):
+    pregunta = pregunta.strip()
+    if pregunta not in preguntas_respuestas:
+        preguntas_respuestas[pregunta] = ["Respuesta pendiente"]
+    guardar_preguntas_respuestas(preguntas_respuestas)
+    print(f"La pregunta '{pregunta}' se ha guardado para ser respondida más tarde.")
