@@ -47,16 +47,16 @@ def main():
         elif pregunta.lower() == "agregar":
             agregar_pregunta_respuesta(preguntas_respuestas)
         else:
-            respuesta_especial = acciones_especiales(pregunta, preguntas_respuestas)
-            if respuesta_especial:
-                print("Respuesta: ", respuesta_especial)
-                hablar(respuesta_especial, voz_id)
+            respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
+            if respuesta:
+                respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
+                print("Respuesta: ", respuesta_formateada)
+                hablar(respuesta_formateada, voz_id)
             else:
-                respuesta = obtener_respuesta(pregunta, preguntas_respuestas)
-                if respuesta:
-                    respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
-                    print("Respuesta: ", respuesta_formateada)
-                    hablar(respuesta_formateada, voz_id)
+                respuesta_especial = acciones_especiales(pregunta, preguntas_respuestas)
+                if respuesta_especial:
+                    print("Respuesta: ", respuesta_especial)
+                    hablar(respuesta_especial, voz_id)
                 else:
                     print("Lo siento, no tengo una respuesta para esa pregunta.")
                     retroalimentar = input("¿Deseas proporcionar una respuesta para esta pregunta? (escribe 'si' para confirmar): ")

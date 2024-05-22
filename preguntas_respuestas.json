@@ -2,7 +2,8 @@
     "preguntas": {
         "Como estas?": [
             "Estoy bien, gracias por preguntar.",
-            "Me siento genial, ¿y tú?"
+            "Me siento genial, ¿y tú?",
+            "2:20"
         ],
         "Cual es tu nombre?": [
             "Mi nombre es Bot.",
@@ -20,7 +21,7 @@
             "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.",
             "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!"
         ],
-        "quien es tu padre?": [
+        "Quien es tu padre?": [
             "Mi padre es Pragmir"
         ],
         "Donde se encuentra Chile?": [
@@ -31,6 +32,15 @@
         ],
         "Quien es Elon Musk?": [
             "Elon Reeve Musk es un empresario, inversor y magnate sudafricano, mejor conocido por ser el fundador de tres de las más exitosas empresas del mundo: Space X, Tesla y OpenAi. Con esta triada, no es difícil reconocer que Elon Musk es hoy uno de los hombres más poderosos de la tierra.Hace 8 horas"
+        ],
+        "Cuantos grados puede soportar un ser humano?": [
+            "Tras este ejemplo de alta temperatura ambiental, cabe hacerse la pregunta ¿cuál es la temperaturas máxima que puede aguantar un ser humano? Los científicos han determinado que el límite en el que ya no somos capaces de regular nuestra temperatura corporal está entre 40 y 50 grados Celsius.7 feb 2024"
+        ],
+        "Cual es el clima de hoy en quilpue?": [
+            "11°C"
+        ],
+        "Quue carreras imparte Duoc Uc?": [
+            "Carreras ProfesionalesIngeniería en Administración mención Finanzas.Ingeniería en Construcción.Ingeniería en Gestión Logística.Ingeniería en Informática."
         ]
     }
 }
