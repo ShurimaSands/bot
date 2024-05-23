@@ -63,20 +63,37 @@
                 ]
             ]
         },
-        "Que hora es en Chile?": {
+        "Quien es Master chieft?": {
             "respuestas": [
-                "6:25 p.m."
+                "John-117, MCPON, más conocido como Master Chief (también conocido en español como Jefe Maestro), es un personaje y el protagonista principal de la serie de videojuegos Halo."
             ],
             "entidades": [
                 [
-                    "Que hora",
+                    "Quien es Master",
+                    "ORG"
+                ]
+            ]
+        },
+        "Quien es Hatsune MIku?": {
+            "respuestas": [
+                "Miku Hatsune (CV01/初音ミク Hatsune Miku) conocida mayormente como Hatsune Miku o simplemente Miku, es una cantante virtual para el sintonizador desarrollado por Yamaha, VOCALOID2, VOCALOID3 y VOCALOID4, así como para el programa desarrollado por Crypton Future Media, Piapro Studio."
+            ],
+            "entidades": [
+                [
+                    "Quien",
                     "PERSON"
                 ],
                 [
-                    "Chile",
-                    "GPE"
+                    "Hatsune MIku",
+                    "PERSON"
                 ]
             ]
+        },
+        "En que año salio medal of honor?": {
+            "respuestas": [
+                "El primer videojuego de la serie, apareció en 1999 para la videoconsola PlayStation, convirtiéndose en uno de los pocos videojuegos de la Segunda Guerra Mundial en aquella generación de consolas."
+            ],
+            "entidades": []
         }
     }
 }

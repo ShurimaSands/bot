@@ -4,63 +4,13 @@ import random
 import json
 import requests
 from bs4 import BeautifulSoup
+from transformers import pipeline
 
 # Cargar el modelo de lenguaje de spaCy
 nlp = spacy.load("en_core_web_sm")
 
-# funciones.py
-
-def cargar_usuarios():
-    try:
-        with open('usuarios.json', 'r', encoding='utf-8') as f:
-            usuarios = json.load(f)
-        return usuarios
-    except FileNotFoundError:
-        return {}
-
-def guardar_usuarios(usuarios):
-    with open('usuarios.json', 'w', encoding='utf-8') as f:
-        json.dump(usuarios, f, ensure_ascii=False, indent=4)
-
-def obtener_nombre_usuario(usuarios):
-    nombre = input("Por favor, dime tu nombre: ").strip()
-    if nombre not in usuarios:
-        usuarios[nombre] = {'nombre': nombre}
-        guardar_usuarios(usuarios)
-    return nombre
-
-def saludar_usuario(nombre):
-    return f"¡Hola, {nombre}! ¿Cómo puedo ayudarte hoy?"
-
-##############
-# funciones.py
-
-import random
-
-def responder_con_emocion(texto, emocion):
-    respuestas = {
-        'feliz': [f"¡{texto}!", f"¡Genial! {texto}"],
-        'triste': [f"Lamento oír eso, pero {texto}.", f"Lo siento, {texto}"],
-        'emocionado': [f"¡Wow! {texto}!", f"¡Increíble! {texto}"],
-    }
-    return random.choice(respuestas.get(emocion, [texto]))
-################
-# funciones.py
-
-def contar_chiste():
-    chistes = [
-        "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.",
-        "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!",
-    ]
-    return random.choice(chistes)
-
-def compartir_curiosidad():
-    curiosidades = [
-        "¿Sabías que los koalas duermen hasta 22 horas al día?",
-        "El corazón de un camarón está en su cabeza.",
-    ]
-    return random.choice(curiosidades)
-
+# Cargar el modelo de Transformers para preguntas y respuestas
+nlp_transformers = pipeline('question-answering')
 
 def cargar_preguntas_respuestas():
     try:
@@ -157,16 +107,18 @@ def retroalimentar_respuesta(respuesta_correcta, pregunta, preguntas_respuestas)
 
 def buscar_en_google(query):
     headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(f"https://www.google.com/search?q={query}", headers=headers)
-    if response.status_code == 200:
+    try:
+        response = requests.get(f"https://www.google.com/search?q={query}", headers=headers)
+        response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         resultado = soup.find('div', class_='BNeawe')
         if resultado:
             return resultado.text
         else:
             return "Lo siento, no pude encontrar una respuesta clara en Google."
-    else:
-        return "Lo siento, no pude obtener la información de Google."
+    except requests.exceptions.RequestException as e:
+        print(f"Error al conectar con Google: {e}")
+        return "Lo siento, hubo un problema al intentar conectar con Google."
 
 from spacy.matcher import Matcher
 
@@ -184,6 +136,19 @@ def clasificar_intencion(doc):
             span = doc[start:end]
             return nlp.vocab.strings[match_id]
     return "Desconocido"
+
+def responder_con_transformers(pregunta, contexto):
+    resultado = nlp_transformers(question=pregunta, context=contexto)
+    return resultado['answer']
+
+def obtener_contexto(pregunta):
+    doc = nlp(pregunta)
+    entidades = [(ent.text, ent.label_) for ent in doc.ents]
+    contexto = ""
+    for entidad in entidades:
+        if entidad[1] in ["PERSON", "GPE", "ORG"]:
+            contexto += buscar_en_google(entidad[0]) + " "
+    return contexto.strip()
 
 def acciones_especiales(pregunta, preguntas_respuestas):
     respuesta = None
@@ -203,7 +168,12 @@ def acciones_especiales(pregunta, preguntas_respuestas):
         else:
             respuesta = buscar_en_google("hora actual")
     else:
-        respuesta = buscar_en_google(pregunta)
+        # Usar transformers para preguntas generales con contexto dinámico
+        contexto = obtener_contexto(pregunta)
+        if contexto:
+            respuesta = responder_con_transformers(pregunta, contexto)
+        else:
+            respuesta = buscar_en_google(pregunta)
     
     # Guardar respuesta solo si la intención no es "Clima" o "Hora" o "Hora_en"
     if intencion not in ["Clima", "Hora", "Hora_en"] and respuesta and respuesta != "Lo siento, no pude encontrar una respuesta clara en Google.":
@@ -227,3 +197,41 @@ def guardar_pregunta_no_respondida(pregunta, preguntas_respuestas):
         }
     guardar_preguntas_respuestas(preguntas_respuestas)
     print(f"La pregunta '{pregunta}' se ha guardado para ser respondida más tarde.")
+
+# Nuevas funciones para interacciones adicionales
+def cargar_usuarios():
+    try:
+        with open('usuarios.json', 'r', encoding='utf-8') as f:
+            usuarios = json.load(f)
+        return usuarios
+    except FileNotFoundError:
+        return {}
+
+def guardar_usuarios(usuarios):
+    with open('usuarios.json', 'w', encoding='utf-8') as f:
+        json.dump(usuarios, f, ensure_ascii=False, indent=4)
+
+def obtener_nombre_usuario(usuarios):
+    nombre = input("Por favor, dime tu nombre: ").strip()
+    if nombre not in usuarios:
+        usuarios[nombre] = {'nombre': nombre}
+        guardar_usuarios(usuarios)
+    return nombre
+
+def saludar_usuario(nombre):
+    return f"¡Hola, {nombre}! ¿Cómo puedo ayudarte hoy?"
+
+def responder_con_emocion(texto, emocion):
+    respuestas = {
+        'feliz': [f"¡{texto}!", f"¡Genial! {texto}"],
+        'triste': [f"Lamento oír eso, pero {texto}.", f"Lo siento, {texto}"],
+        'emocionado': [f"¡Wow! {texto}!", f"¡Increíble! {texto}"],
+    }
+    return random.choice(respuestas.get(emocion, [texto]))
+
+def compartir_curiosidad():
+    curiosidades = [
+        "¿Sabías que los koalas duermen hasta 22 horas al día?",
+        "El corazón de un camarón está en su cabeza.",
+    ]
+    return random.choice(curiosidades)
