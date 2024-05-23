@@ -8,6 +8,60 @@ from bs4 import BeautifulSoup
 # Cargar el modelo de lenguaje de spaCy
 nlp = spacy.load("en_core_web_sm")
 
+# funciones.py
+
+def cargar_usuarios():
+    try:
+        with open('usuarios.json', 'r', encoding='utf-8') as f:
+            usuarios = json.load(f)
+        return usuarios
+    except FileNotFoundError:
+        return {}
+
+def guardar_usuarios(usuarios):
+    with open('usuarios.json', 'w', encoding='utf-8') as f:
+        json.dump(usuarios, f, ensure_ascii=False, indent=4)
+
+def obtener_nombre_usuario(usuarios):
+    nombre = input("Por favor, dime tu nombre: ").strip()
+    if nombre not in usuarios:
+        usuarios[nombre] = {'nombre': nombre}
+        guardar_usuarios(usuarios)
+    return nombre
+
+def saludar_usuario(nombre):
+    return f"¡Hola, {nombre}! ¿Cómo puedo ayudarte hoy?"
+
+##############
+# funciones.py
+
+import random
+
+def responder_con_emocion(texto, emocion):
+    respuestas = {
+        'feliz': [f"¡{texto}!", f"¡Genial! {texto}"],
+        'triste': [f"Lamento oír eso, pero {texto}.", f"Lo siento, {texto}"],
+        'emocionado': [f"¡Wow! {texto}!", f"¡Increíble! {texto}"],
+    }
+    return random.choice(respuestas.get(emocion, [texto]))
+################
+# funciones.py
+
+def contar_chiste():
+    chistes = [
+        "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter.",
+        "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!",
+    ]
+    return random.choice(chistes)
+
+def compartir_curiosidad():
+    curiosidades = [
+        "¿Sabías que los koalas duermen hasta 22 horas al día?",
+        "El corazón de un camarón está en su cabeza.",
+    ]
+    return random.choice(curiosidades)
+
+
 def cargar_preguntas_respuestas():
     try:
         with open('preguntas_respuestas.json', 'r', encoding='utf-8') as f:
