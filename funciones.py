@@ -4,9 +4,12 @@ import random
 import json
 import requests
 from bs4 import BeautifulSoup
+from transformers import pipeline
 
-# Cargar el modelo de lenguaje de spaCy
+# Inicialización del modelo de lenguaje de spaCy
 nlp = spacy.load("en_core_web_sm")
+# Inicialización del pipeline de transformers
+nlp_transformers = pipeline('question-answering')
 
 def cargar_preguntas_respuestas():
     try:
@@ -26,7 +29,7 @@ def obtener_respuesta(pregunta, preguntas_respuestas):
     respuestas = []
     for key in preguntas_respuestas:
         if key.lower() in pregunta:
-            respuestas.extend(preguntas_respuestas[key])
+            respuestas.extend(preguntas_respuestas[key]['respuestas'])
     return random.choice(respuestas) if respuestas else None
 
 def listar_voces():
@@ -65,13 +68,17 @@ def cargar_voz_seleccionada():
     except FileNotFoundError:
         return None
 
-def hablar(texto, voz_id=None):
+def hablar(texto, voz_id=None, talking=None):
     motor = pyttsx3.init()
     if voz_id:
         motor.setProperty('voice', voz_id)
     motor.setProperty('rate', 150)
+    if talking is not None:
+        talking.value = 1
     motor.say(texto)
     motor.runAndWait()
+    if talking is not None:
+        talking.value = 0
 
 def agregar_pregunta_respuesta(preguntas_respuestas):
     nueva_pregunta = input("Introduce la nueva pregunta: ").strip()
@@ -153,7 +160,6 @@ def acciones_especiales(pregunta, preguntas_respuestas):
     else:
         respuesta = buscar_en_google(pregunta)
     
-    # Guardar respuesta solo si la intención no es "Clima" o "Hora" o "Hora_en"
     if intencion not in ["Clima", "Hora", "Hora_en"] and respuesta and respuesta != "Lo siento, no pude encontrar una respuesta clara en Google.":
         if pregunta not in preguntas_respuestas:
             preguntas_respuestas[pregunta] = {
@@ -205,6 +211,7 @@ def responder_con_emocion(texto, emocion):
         'emocionado': [f"¡Wow! {texto}!", f"¡Increíble! {texto}"],
     }
     return random.choice(respuestas.get(emocion, [texto]))
+
 
 def compartir_curiosidad():
     curiosidades = [

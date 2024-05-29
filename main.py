@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import threading
+import time
 import datetime
 import pyttsx3
+import multiprocessing
 from funciones import (
     cargar_preguntas_respuestas, 
     obtener_respuesta, 
@@ -22,13 +24,14 @@ from funciones import (
     responder_con_emocion,
     compartir_curiosidad
 )
-import subprocess
+from face import face_animation
 
 class TalkingBot(tk.Tk):
-    def __init__(self):
+    def __init__(self, talking):
         super().__init__()
+        self.talking = talking
         self.title("Talking Bot")
-        self.geometry("400x200")
+        self.geometry("400x300")
         self.create_widgets()
         self.engine = pyttsx3.init()
         self.voice_id = cargar_voz_seleccionada()
@@ -37,10 +40,8 @@ class TalkingBot(tk.Tk):
         self.preguntas_respuestas = cargar_preguntas_respuestas()
         self.usuarios = cargar_usuarios()
         self.get_user_name()
-        self.launch_face_animation()
 
     def create_widgets(self):
-        # Entry and button for user input
         self.entry = ttk.Entry(self)
         self.entry.pack(pady=10)
         self.button = ttk.Button(self, text="Hablar", command=self.speak)
@@ -61,8 +62,13 @@ class TalkingBot(tk.Tk):
             if respuesta:
                 self.display_message(f"Bot: {respuesta}")
                 duration = self.get_speech_duration(respuesta)
-                threading.Thread(target=hablar, args=(respuesta, self.voice_id)).start()
+                self.talking.value = 1
+                threading.Thread(target=self.speak_text, args=(respuesta,)).start()
             self.entry.delete(0, tk.END)
+
+    def speak_text(self, text):
+        hablar(text, self.voice_id, self.talking)
+        self.talking.value = 0
 
     def get_speech_duration(self, text):
         words_per_minute = 130
@@ -105,7 +111,7 @@ class TalkingBot(tk.Tk):
             guardar_usuarios(self.usuarios)
             saludo_inicial = saludar_usuario(self.nombre)
             self.display_message(saludo_inicial)
-            hablar(saludo_inicial, self.voice_id)
+            hablar(saludo_inicial, self.voice_id, self.talking)
             self.name_window.destroy()
 
     def get_response(self, pregunta):
@@ -120,9 +126,11 @@ class TalkingBot(tk.Tk):
                 guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
                 return "Lo siento, no tengo una respuesta para esa pregunta."
 
-    def launch_face_animation(self):
-        subprocess.Popen(["python", "face.py"])
-
 if __name__ == "__main__":
-    app = TalkingBot()
+    talking = multiprocessing.Value('i', 0)
+    p = multiprocessing.Process(target=face_animation, args=(talking,))
+    p.start()
+
+    app = TalkingBot(talking)
     app.mainloop()
+    p.terminate()

@@ -165,6 +165,17 @@
                 "Los caballeros templarios se establecieron en torno a 1119, y recibieron el reconocimiento papal en 1129. Fue una orden militar católica medieval cuyos miembros combinaban la destreza marcial con la vida monástica y defendían los lugares santos cristianos y a los peregrinos en Oriente Medio y en otros lugares."
             ],
             "entidades": []
+        },
+        "Quien es Iron man?": {
+            "respuestas": [
+                "Iron Man (conocido en español como el Hombre de Hierro) es un superhéroe que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue creado por el escritor y editor Stan Lee en colaboración con el guionista Larry Lieber."
+            ],
+            "entidades": [
+                [
+                    "Quien es Iron",
+                    "PERSON"
+                ]
+            ]
         }
     }
 }

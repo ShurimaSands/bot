@@ -4,13 +4,7 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import numpy as np
-
-# Inicialización de Pygame y la ventana de OpenGL
-pygame.init()
-display = (800, 600)
-pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
-gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
-glTranslatef(0.0, 0.0, -5)
+import multiprocessing
 
 def draw_circle(radius, segments, clockwise=True):
     glBegin(GL_LINE_LOOP)
@@ -23,8 +17,11 @@ def draw_circle(radius, segments, clockwise=True):
         glVertex2f(x, y)
     glEnd()
 
-def draw_face(angle):
-    glColor3f(0.0, 1.0, 0.0)
+def draw_face(angle, talking):
+    if talking.value:
+        glColor3f(0.0, 0.0, 1.0)  # Blue color when talking
+    else:
+        glColor3f(0.0, 1.0, 0.0)  # Green color otherwise
     for i, r in enumerate(np.linspace(0.1, 2.0, 20)):
         draw_circle(r, 50, clockwise=(i % 2 == 0))
 
@@ -44,21 +41,30 @@ def draw_face(angle):
     draw_circle(1, 50)
     glPopMatrix()
 
-angle = 0
+def face_animation(talking):
+    pygame.init()
+    display = (800, 600)
+    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
+    glTranslatef(0.0, 0.0, -5)
+    angle = 0
 
-# Bucle principal
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glPushMatrix()
-    glRotatef(angle, 0, 0, 1)
-    draw_face(angle)
-    glPopMatrix()
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glPushMatrix()
+        glRotatef(angle, 0, 0, 1)
+        draw_face(angle, talking)
+        glPopMatrix()
 
-    angle += 1
-    pygame.display.flip()
-    pygame.time.wait(10)
+        angle += 1
+        pygame.display.flip()
+        pygame.time.wait(10)
+
+if __name__ == "__main__":
+    talking = multiprocessing.Value('i', 0)
+    face_animation(talking)
