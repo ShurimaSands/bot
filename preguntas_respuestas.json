@@ -9,6 +9,10 @@
             "Mi nombre es Bot.",
             "Puedes llamarme Bot."
         ],
+        "Como te llamas?": [
+            "Mi nombre es Bot.",
+            "Puedes llamarme Bot."
+        ],
         "Que hora es?": [
             "Déjame ver... son las {}.",
             "Es hora de aprender a programar, pero son las {} si te interesa."
@@ -49,6 +53,17 @@
                 [
                     "Cortana",
                     "GPE"
+                ]
+            ]
+        },
+        "Quien es marter Chieft?": {
+            "respuestas": [
+                " John-117, MCPON, más conocido como Master Chief (también conocido en español como Jefe Maestro), es un personaje y el protagonista principal de la serie de videojuegos Halo.\nBing dice: Lo siento, no pude encontrar una respuesta clara en Bing."
+            ],
+            "entidades": [
+                [
+                    "Quien es marter Chieft",
+                    "PERSON"
                 ]
             ]
         }

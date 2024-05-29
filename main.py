@@ -129,7 +129,6 @@ class TalkingBot(tk.Tk):
             if respuesta_especial:
                 return respuesta_especial
             else:
-                # Implementar búsqueda en Google si no hay respuesta
                 google_respuesta = buscar_en_google(pregunta)
                 if google_respuesta:
                     return google_respuesta

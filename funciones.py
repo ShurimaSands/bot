@@ -29,6 +29,8 @@ def obtener_respuesta(pregunta, preguntas_respuestas):
             respuestas.extend(preguntas_respuestas[key]['respuestas'])
     return random.choice(respuestas) if respuestas else None
 
+
+
 def listar_voces():
     motor = pyttsx3.init()
     voces = motor.getProperty('voices')
@@ -120,6 +122,8 @@ def buscar_en_google(query):
         print(f"Error al conectar con Google: {e}")
         return "Lo siento, hubo un problema al intentar conectar con Google."
     
+
+    ###############BING JODIDO
 def buscar_en_bing(query):
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
@@ -136,6 +140,7 @@ def buscar_en_bing(query):
         return "Lo siento, hubo un problema al intentar conectar con Bing."
     
 
+    
 from spacy.matcher import Matcher
 
 def clasificar_intencion(doc):
