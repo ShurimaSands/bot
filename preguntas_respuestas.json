@@ -94,6 +94,60 @@
                 "El primer videojuego de la serie, apareció en 1999 para la videoconsola PlayStation, convirtiéndose en uno de los pocos videojuegos de la Segunda Guerra Mundial en aquella generación de consolas."
             ],
             "entidades": []
+        },
+        "Quien es capitan america?": {
+            "respuestas": [
+                "El Capitán América fue diseñado como un supersoldado patriota que luchaba frecuentemente contra las potencias del Eje en la Segunda Guerra Mundial, y fue el personaje más popular de Timely Comics durante el período de guerra."
+            ],
+            "entidades": [
+                [
+                    "Quien es capitan america",
+                    "ORG"
+                ]
+            ]
+        },
+        "salir": {
+            "respuestas": [
+                "salir | Definición | Diccionario de la lengua española | RAE - ASALE"
+            ],
+            "entidades": []
+        },
+        "Cuanto es 2 x 2?": {
+            "respuestas": [
+                "4"
+            ],
+            "entidades": [
+                [
+                    "2",
+                    "CARDINAL"
+                ],
+                [
+                    "2",
+                    "CARDINAL"
+                ]
+            ]
+        },
+        "Quien es wolverine?": {
+            "respuestas": [
+                "Es un mutante que posee sentidos afinados a los animales, capacidades físicas mejoradas, poderosa capacidad de regeneración conocida como un factor de curación, y tres garras retráctiles en cada mano. Wolverine ha sido representado de diversas formas como miembro de los X-Men, Alpha Flight, Fuerza-X y Los Vengadores."
+            ],
+            "entidades": [
+                [
+                    "Quien",
+                    "PERSON"
+                ]
+            ]
+        },
+        "Quien es el capitan america?": {
+            "respuestas": [
+                "El Capitán América fue diseñado como un supersoldado patriota que luchaba frecuentemente contra las potencias del Eje en la Segunda Guerra Mundial, y fue el personaje más popular de Timely Comics durante el período de guerra."
+            ],
+            "entidades": [
+                [
+                    "Quien es el capitan america",
+                    "ORG"
+                ]
+            ]
         }
     }
 }

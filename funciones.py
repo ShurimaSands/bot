@@ -4,13 +4,9 @@ import random
 import json
 import requests
 from bs4 import BeautifulSoup
-from transformers import pipeline
 
 # Cargar el modelo de lenguaje de spaCy
 nlp = spacy.load("en_core_web_sm")
-
-# Cargar el modelo de Transformers para preguntas y respuestas
-nlp_transformers = pipeline('question-answering')
 
 def cargar_preguntas_respuestas():
     try:
@@ -30,7 +26,7 @@ def obtener_respuesta(pregunta, preguntas_respuestas):
     respuestas = []
     for key in preguntas_respuestas:
         if key.lower() in pregunta:
-            respuestas.extend(preguntas_respuestas[key]['respuestas'])
+            respuestas.extend(preguntas_respuestas[key])
     return random.choice(respuestas) if respuestas else None
 
 def listar_voces():
@@ -137,19 +133,6 @@ def clasificar_intencion(doc):
             return nlp.vocab.strings[match_id]
     return "Desconocido"
 
-def responder_con_transformers(pregunta, contexto):
-    resultado = nlp_transformers(question=pregunta, context=contexto)
-    return resultado['answer']
-
-def obtener_contexto(pregunta):
-    doc = nlp(pregunta)
-    entidades = [(ent.text, ent.label_) for ent in doc.ents]
-    contexto = ""
-    for entidad in entidades:
-        if entidad[1] in ["PERSON", "GPE", "ORG"]:
-            contexto += buscar_en_google(entidad[0]) + " "
-    return contexto.strip()
-
 def acciones_especiales(pregunta, preguntas_respuestas):
     respuesta = None
     doc = nlp(pregunta)
@@ -168,12 +151,7 @@ def acciones_especiales(pregunta, preguntas_respuestas):
         else:
             respuesta = buscar_en_google("hora actual")
     else:
-        # Usar transformers para preguntas generales con contexto dinámico
-        contexto = obtener_contexto(pregunta)
-        if contexto:
-            respuesta = responder_con_transformers(pregunta, contexto)
-        else:
-            respuesta = buscar_en_google(pregunta)
+        respuesta = buscar_en_google(pregunta)
     
     # Guardar respuesta solo si la intención no es "Clima" o "Hora" o "Hora_en"
     if intencion not in ["Clima", "Hora", "Hora_en"] and respuesta and respuesta != "Lo siento, no pude encontrar una respuesta clara en Google.":
@@ -198,7 +176,6 @@ def guardar_pregunta_no_respondida(pregunta, preguntas_respuestas):
     guardar_preguntas_respuestas(preguntas_respuestas)
     print(f"La pregunta '{pregunta}' se ha guardado para ser respondida más tarde.")
 
-# Nuevas funciones para interacciones adicionales
 def cargar_usuarios():
     try:
         with open('usuarios.json', 'r', encoding='utf-8') as f:
