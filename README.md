@@ -8,4 +8,4 @@ Siguientes Pasos:
 Añadir Más APIs: Puedes integrar otras APIs como noticias, precios de criptomonedas, etc.
 NLP: Mejorar el procesamiento de lenguaje natural para entender mejor las preguntas.
 Interfaz Gráfica: Crear una interfaz gráfica con tkinter o un frontend web con Flask o Django para mejorar la interacción.
-Si tienes más ideas o necesitas ayuda con otra funcionalidad, ¡háznoslo saber! -->
+Si tienes más ideas o necesitas ayuda con otra funcionalidad, ¡háznoslo saber! -->.
