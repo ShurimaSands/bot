@@ -4,12 +4,9 @@ import random
 import json
 import requests
 from bs4 import BeautifulSoup
-from transformers import pipeline
 
-# Inicialización del modelo de lenguaje de spaCy
+# Cargar el modelo de lenguaje de spaCy
 nlp = spacy.load("en_core_web_sm")
-# Inicialización del pipeline de transformers
-nlp_transformers = pipeline('question-answering')
 
 def cargar_preguntas_respuestas():
     try:
@@ -29,7 +26,7 @@ def obtener_respuesta(pregunta, preguntas_respuestas):
     respuestas = []
     for key in preguntas_respuestas:
         if key.lower() in pregunta:
-            respuestas.extend(preguntas_respuestas[key])
+            respuestas.extend(preguntas_respuestas[key]['respuestas'])
     return random.choice(respuestas) if respuestas else None
 
 def listar_voces():
@@ -114,14 +111,30 @@ def buscar_en_google(query):
         response = requests.get(f"https://www.google.com/search?q={query}", headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        resultado = soup.find('div', class_='BNeawe')
-        if resultado:
-            return resultado.text
+        resultados = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
+        if resultados:
+            return resultados[0].text
         else:
             return "Lo siento, no pude encontrar una respuesta clara en Google."
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Google: {e}")
         return "Lo siento, hubo un problema al intentar conectar con Google."
+    
+def buscar_en_bing(query):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        response = requests.get(f"https://www.bing.com/search?q={query}", headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        resultados = soup.find_all('li', class_='b_algo')
+        if resultados:
+            return resultados[0].find('a').text
+        else:
+            return "Lo siento, no pude encontrar una respuesta clara en Bing."
+    except requests.exceptions.RequestException as e:
+        print(f"Error al conectar con Bing: {e}")
+        return "Lo siento, hubo un problema al intentar conectar con Bing."
+    
 
 from spacy.matcher import Matcher
 
@@ -158,9 +171,11 @@ def acciones_especiales(pregunta, preguntas_respuestas):
         else:
             respuesta = buscar_en_google("hora actual")
     else:
-        respuesta = buscar_en_google(pregunta)
+        respuesta_google = buscar_en_google(pregunta)
+        respuesta_bing = buscar_en_bing(pregunta)
+        respuesta = f" {respuesta_google}\nBing dice: {respuesta_bing}"
     
-    if intencion not in ["Clima", "Hora", "Hora_en"] and respuesta and respuesta != "Lo siento, no pude encontrar una respuesta clara en Google.":
+    if intencion == "Desconocido" and respuesta:
         if pregunta not in preguntas_respuestas:
             preguntas_respuestas[pregunta] = {
                 'respuestas': [respuesta],
@@ -182,6 +197,7 @@ def guardar_pregunta_no_respondida(pregunta, preguntas_respuestas):
     guardar_preguntas_respuestas(preguntas_respuestas)
     print(f"La pregunta '{pregunta}' se ha guardado para ser respondida más tarde.")
 
+# Nuevas funciones para interacciones adicionales
 def cargar_usuarios():
     try:
         with open('usuarios.json', 'r', encoding='utf-8') as f:

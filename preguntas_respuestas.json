@@ -20,192 +20,26 @@
         "Quien es tu padre?": [
             "Mi padre es Pragmir"
         ],
-        "Donde se encuentra Chile?": [
-            "Se encuentra en Sudamérica"
-        ],
-        "Como se dice hola en ingles?": [
-            "Más preguntas"
-        ],
-        "Quien es Elon Musk?": [
-            "Elon Reeve Musk es un empresario, inversor y magnate sudafricano, mejor conocido por ser el fundador de tres de las más exitosas empresas del mundo: Space X, Tesla y OpenAi. Con esta triada, no es difícil reconocer que Elon Musk es hoy uno de los hombres más poderosos de la tierra.Hace 8 horas"
-        ],
-        "Cuantos grados puede soportar un ser humano?": [
-            "Tras este ejemplo de alta temperatura ambiental, cabe hacerse la pregunta ¿cuál es la temperaturas máxima que puede aguantar un ser humano? Los científicos han determinado que el límite en el que ya no somos capaces de regular nuestra temperatura corporal está entre 40 y 50 grados Celsius.7 feb 2024"
-        ],
-        "Quue carreras imparte Duoc Uc?": [
-            "Carreras ProfesionalesIngeniería en Administración mención Finanzas.Ingeniería en Construcción.Ingeniería en Gestión Logística.Ingeniería en Informática."
-        ],
-        "Cuanta gente vive en Chile?": [
-            "19.6 millones (2022)"
-        ],
-        "Quien es bill gates?": [
-            "Bill Gates, cofundador de Microsoft, sigue acumulando una fortuna que desafía la imaginación. En 2023, logró incrementar su patrimonio de manera asombrosa, generando una cantidad de dinero por día que deja boquiabiertos a muchos."
-        ],
-        "Quien descubrio America?": {
+        "Quien es Elon Musk?": {
             "respuestas": [
-                "De esta manera, el 12 de octubre de 1492 Cristóbal Colón llegó a lo que hoy conocemos como América al encontrarse con las Antillas y desembarcar en la isla de Guanahaní, misma que bautizó con el nombre de San Salvador (posteriormente arribó a los actuales territorios de Santo Domingo y Cuba).11 oct 2019"
+                " EL magnate y CEO de Tesla, Elon Musk, es famoso por impulsar grandes proyectos y empresas que aspiran a concretar grandes cambios en la humanidad. Ahora, afirma que sabe cómo satisfacer las necesidades de energía de la sociedad actual.\nBing dice: Lo siento, no pude encontrar una respuesta clara en Bing."
             ],
             "entidades": [
                 [
-                    "Quien descubrio America",
-                    "ORG"
-                ]
-            ]
-        },
-        "Sigue contandome de lo anterior": {
-            "respuestas": [
-                "Curso.Ortografía y Redacción - Google Docs"
-            ],
-            "entidades": [
-                [
-                    "de lo",
+                    "Quien es Elon Musk",
                     "PERSON"
                 ]
             ]
         },
-        "Quien es Master chieft?": {
+        "Iron man": {
             "respuestas": [
-                "John-117, MCPON, más conocido como Master Chief (también conocido en español como Jefe Maestro), es un personaje y el protagonista principal de la serie de videojuegos Halo."
-            ],
-            "entidades": [
-                [
-                    "Quien es Master",
-                    "ORG"
-                ]
-            ]
-        },
-        "Quien es Hatsune MIku?": {
-            "respuestas": [
-                "Miku Hatsune (CV01/初音ミク Hatsune Miku) conocida mayormente como Hatsune Miku o simplemente Miku, es una cantante virtual para el sintonizador desarrollado por Yamaha, VOCALOID2, VOCALOID3 y VOCALOID4, así como para el programa desarrollado por Crypton Future Media, Piapro Studio."
-            ],
-            "entidades": [
-                [
-                    "Quien",
-                    "PERSON"
-                ],
-                [
-                    "Hatsune MIku",
-                    "PERSON"
-                ]
-            ]
-        },
-        "En que año salio medal of honor?": {
-            "respuestas": [
-                "El primer videojuego de la serie, apareció en 1999 para la videoconsola PlayStation, convirtiéndose en uno de los pocos videojuegos de la Segunda Guerra Mundial en aquella generación de consolas."
+                " Anthony Edward \"Tony\" Stark es un multimillonario magnate empresarial y filántropo estadounidense, playboy e ingenioso científico, que sufrió una grave lesión ...Iron Man (película)Iron Man 3Ron Man 2Iron Man 2020Anexo:Armadura de Iron Man\nBing dice: wikipedia.orghttps://es.wikipedia.org/wiki/Iron_Man"
             ],
             "entidades": []
         },
-        "Quien es capitan america?": {
+        "Quien es Cortana?": {
             "respuestas": [
-                "El Capitán América fue diseñado como un supersoldado patriota que luchaba frecuentemente contra las potencias del Eje en la Segunda Guerra Mundial, y fue el personaje más popular de Timely Comics durante el período de guerra."
-            ],
-            "entidades": [
-                [
-                    "Quien es capitan america",
-                    "ORG"
-                ]
-            ]
-        },
-        "salir": {
-            "respuestas": [
-                "salir | Definición | Diccionario de la lengua española | RAE - ASALE"
-            ],
-            "entidades": []
-        },
-        "Cuanto es 2 x 2?": {
-            "respuestas": [
-                "4"
-            ],
-            "entidades": [
-                [
-                    "2",
-                    "CARDINAL"
-                ],
-                [
-                    "2",
-                    "CARDINAL"
-                ]
-            ]
-        },
-        "Quien es wolverine?": {
-            "respuestas": [
-                "Es un mutante que posee sentidos afinados a los animales, capacidades físicas mejoradas, poderosa capacidad de regeneración conocida como un factor de curación, y tres garras retráctiles en cada mano. Wolverine ha sido representado de diversas formas como miembro de los X-Men, Alpha Flight, Fuerza-X y Los Vengadores."
-            ],
-            "entidades": [
-                [
-                    "Quien",
-                    "PERSON"
-                ]
-            ]
-        },
-        "Quien es el capitan america?": {
-            "respuestas": [
-                "El Capitán América fue diseñado como un supersoldado patriota que luchaba frecuentemente contra las potencias del Eje en la Segunda Guerra Mundial, y fue el personaje más popular de Timely Comics durante el período de guerra."
-            ],
-            "entidades": [
-                [
-                    "Quien es el capitan america",
-                    "ORG"
-                ]
-            ]
-        },
-        "Quien es Black Panter?": {
-            "respuestas": [
-                "La Pantera Negra (T'Challa) (inglés: Black Panther) es un superhéroe de la compañía estadounidense Marvel Comics, creado por Stan Lee y Jack Kirby para el número 52 de The Fantastic Four."
-            ],
-            "entidades": [
-                [
-                    "Quien",
-                    "PERSON"
-                ]
-            ]
-        },
-        "Quienes fueron los templarios?": {
-            "respuestas": [
-                "Los caballeros templarios se establecieron en torno a 1119, y recibieron el reconocimiento papal en 1129. Fue una orden militar católica medieval cuyos miembros combinaban la destreza marcial con la vida monástica y defendían los lugares santos cristianos y a los peregrinos en Oriente Medio y en otros lugares."
-            ],
-            "entidades": []
-        },
-        "Quien es Iron man?": {
-            "respuestas": [
-                "Iron Man (conocido en español como el Hombre de Hierro) es un superhéroe que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue creado por el escritor y editor Stan Lee en colaboración con el guionista Larry Lieber."
-            ],
-            "entidades": [
-                [
-                    "Quien es Iron",
-                    "PERSON"
-                ]
-            ]
-        },
-        "3x 3": {
-            "respuestas": [
-                "9"
-            ],
-            "entidades": [
-                [
-                    "3x",
-                    "CARDINAL"
-                ],
-                [
-                    "3",
-                    "CARDINAL"
-                ]
-            ]
-        },
-        "Que lenguaje es mejor para aprender a programar?": {
-            "respuestas": [
-                "Si estás buscando una opción versátil y ampliamente utilizada, Python puede ser el mejor lenguaje de programación, pues es un lenguaje fácil de aprender y cuenta con una amplia gama de bibliotecas y frameworks para el desarrollo web, científico, de datos y más."
-            ],
-            "entidades": [
-                [
-                    "Que",
-                    "PERSON"
-                ]
-            ]
-        },
-        "Quien era Stan Lee?": {
-            "respuestas": [
-                "Stanley Martin Lieber (Manhattan, Nueva York; 28 de diciembre de 1922-Los Ángeles, California; 12 de noviembre de 2018),​ más conocido como Stan Lee, fue un escritor y editor de cómics estadounidense, además de productor y actor ocasional de cine."
+                " Cortana es el asistente de productividad personal de Microsoft que te ayuda a ahorrar tiempo y centrarte en lo más importante. Para empezar, selecciona el icono de Cortana en la barra de tareas. Si no estás seguro de qué decir, intenta preguntando, \"¿qué puedes hacer?\"\nBing dice: Lo siento, no pude encontrar una respuesta clara en Bing."
             ],
             "entidades": [
                 [
@@ -213,8 +47,8 @@
                     "PERSON"
                 ],
                 [
-                    "Stan Lee",
-                    "PERSON"
+                    "Cortana",
+                    "GPE"
                 ]
             ]
         }

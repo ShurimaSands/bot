@@ -22,7 +22,9 @@ from funciones import (
     guardar_usuarios,
     saludar_usuario,
     responder_con_emocion,
-    compartir_curiosidad
+    compartir_curiosidad,
+    buscar_en_google,
+    buscar_en_bing
 )
 from face import face_animation
 
@@ -127,8 +129,17 @@ class TalkingBot(tk.Tk):
             if respuesta_especial:
                 return respuesta_especial
             else:
-                guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
-                return "Lo siento, no tengo una respuesta para esa pregunta."
+                # Implementar búsqueda en Google si no hay respuesta
+                google_respuesta = buscar_en_google(pregunta)
+                if google_respuesta:
+                    return google_respuesta
+                else:
+                    bing_respuesta = buscar_en_bing(pregunta)
+                    if bing_respuesta:
+                        return bing_respuesta
+                    else:
+                        guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
+                        return "Lo siento, no tengo una respuesta para esa pregunta."
 
 if __name__ == "__main__":
     talking = multiprocessing.Value('i', 0)
