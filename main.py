@@ -6,13 +6,13 @@ import datetime
 import pyttsx3
 import multiprocessing
 from funciones import (
-    cargar_preguntas_respuestas, 
-    obtener_respuesta, 
-    listar_voces, 
-    seleccionar_voz_por_indice, 
-    confirmar_voz, 
-    guardar_voz_seleccionada, 
-    cargar_voz_seleccionada, 
+    cargar_preguntas_respuestas,
+    obtener_respuesta,
+    listar_voces,
+    seleccionar_voz_por_indice,
+    confirmar_voz,
+    guardar_voz_seleccionada,
+    cargar_voz_seleccionada,
     hablar,
     agregar_pregunta_respuesta,
     retroalimentar_respuesta,
@@ -44,6 +44,7 @@ class TalkingBot(tk.Tk):
     def create_widgets(self):
         self.entry = ttk.Entry(self)
         self.entry.pack(pady=10)
+        self.entry.bind("<Return>", self.speak_event)
         self.button = ttk.Button(self, text="Hablar", command=self.speak)
         self.button.pack()
 
@@ -65,6 +66,9 @@ class TalkingBot(tk.Tk):
                 self.talking.value = 1
                 threading.Thread(target=self.speak_text, args=(respuesta,)).start()
             self.entry.delete(0, tk.END)
+
+    def speak_event(self, event):
+        self.speak()
 
     def speak_text(self, text):
         hablar(text, self.voice_id, self.talking)

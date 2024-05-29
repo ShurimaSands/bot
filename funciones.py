@@ -29,7 +29,7 @@ def obtener_respuesta(pregunta, preguntas_respuestas):
     respuestas = []
     for key in preguntas_respuestas:
         if key.lower() in pregunta:
-            respuestas.extend(preguntas_respuestas[key]['respuestas'])
+            respuestas.extend(preguntas_respuestas[key])
     return random.choice(respuestas) if respuestas else None
 
 def listar_voces():
@@ -211,7 +211,6 @@ def responder_con_emocion(texto, emocion):
         'emocionado': [f"¡Wow! {texto}!", f"¡Increíble! {texto}"],
     }
     return random.choice(respuestas.get(emocion, [texto]))
-
 
 def compartir_curiosidad():
     curiosidades = [

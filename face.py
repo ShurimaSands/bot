@@ -6,24 +6,23 @@ from OpenGL.GLU import *
 import numpy as np
 import multiprocessing
 
-def draw_circle(radius, segments, clockwise=True):
+def draw_circle(radius, segments, z=0):
     glBegin(GL_LINE_LOOP)
     for i in range(segments):
         theta = 2.0 * np.pi * i / segments
-        if not clockwise:
-            theta = -theta
         x = radius * np.cos(theta)
         y = radius * np.sin(theta)
-        glVertex2f(x, y)
+        glVertex3f(x, y, z)
     glEnd()
 
-def draw_face(angle, talking):
+def draw_face_3d(angle, talking):
     if talking.value:
         glColor3f(0.0, 0.0, 1.0)  # Blue color when talking
     else:
         glColor3f(0.0, 1.0, 0.0)  # Green color otherwise
+
     for i, r in enumerate(np.linspace(0.1, 2.0, 20)):
-        draw_circle(r, 50, clockwise=(i % 2 == 0))
+        draw_circle(r, 50, z=i*0.1 if i % 2 == 0 else -i*0.1)
 
     glColor3f(0.0, 0.0, 0.0)
     glPushMatrix()
@@ -46,7 +45,8 @@ def face_animation(talking):
     display = (800, 600)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
-    glTranslatef(0.0, 0.0, -5)
+    glTranslatef(0.0, 0.0, -10)
+    glRotatef(45, 1, 1, 0)
     angle = 0
 
     while True:
@@ -57,8 +57,8 @@ def face_animation(talking):
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glPushMatrix()
-        glRotatef(angle, 0, 0, 1)
-        draw_face(angle, talking)
+        glRotatef(angle, 0, 1, 0)
+        draw_face_3d(angle, talking)
         glPopMatrix()
 
         angle += 1
