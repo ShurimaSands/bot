@@ -1,6 +1,8 @@
-import datetime
+import tkinter as tk
+from tkinter import ttk
 import threading
-import time
+import datetime
+import pyttsx3
 from funciones import (
     cargar_preguntas_respuestas, 
     obtener_respuesta, 
@@ -20,15 +22,13 @@ from funciones import (
     responder_con_emocion,
     compartir_curiosidad
 )
-import pyttsx3
-import tkinter as tk
-from tkinter import ttk
+import subprocess
 
 class TalkingBot(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Talking Bot")
-        self.geometry("500x600")
+        self.geometry("400x200")
         self.create_widgets()
         self.engine = pyttsx3.init()
         self.voice_id = cargar_voz_seleccionada()
@@ -37,21 +37,9 @@ class TalkingBot(tk.Tk):
         self.preguntas_respuestas = cargar_preguntas_respuestas()
         self.usuarios = cargar_usuarios()
         self.get_user_name()
+        self.launch_face_animation()
 
     def create_widgets(self):
-        self.canvas = tk.Canvas(self, width=400, height=400, bg="white")
-        self.canvas.pack()
-
-        # Draw the face
-        self.canvas.create_oval(100, 50, 300, 300, fill="yellow", outline="black")
-
-        # Draw the eyes
-        self.canvas.create_oval(160, 120, 180, 140, fill="black", outline="black")
-        self.canvas.create_oval(220, 120, 240, 140, fill="black", outline="black")
-
-        # Draw the mouth
-        self.mouth = self.canvas.create_line(160, 220, 240, 220, fill="black", width=5)
-
         # Entry and button for user input
         self.entry = ttk.Entry(self)
         self.entry.pack(pady=10)
@@ -65,14 +53,6 @@ class TalkingBot(tk.Tk):
         self.text_area.insert(tk.END, message + "\n")
         self.text_area.see(tk.END)
 
-    def move_mouth(self, duration):
-        end_time = time.time() + duration
-        while time.time() < end_time:
-            self.canvas.coords(self.mouth, 160, 220, 240, 230)
-            time.sleep(0.2)
-            self.canvas.coords(self.mouth, 160, 220, 240, 220)
-            time.sleep(0.2)
-
     def speak(self):
         text = self.entry.get()
         if text:
@@ -81,7 +61,6 @@ class TalkingBot(tk.Tk):
             if respuesta:
                 self.display_message(f"Bot: {respuesta}")
                 duration = self.get_speech_duration(respuesta)
-                threading.Thread(target=self.move_mouth, args=(duration,)).start()
                 threading.Thread(target=hablar, args=(respuesta, self.voice_id)).start()
             self.entry.delete(0, tk.END)
 
@@ -140,6 +119,9 @@ class TalkingBot(tk.Tk):
             else:
                 guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
                 return "Lo siento, no tengo una respuesta para esa pregunta."
+
+    def launch_face_animation(self):
+        subprocess.Popen(["python", "face.py"])
 
 if __name__ == "__main__":
     app = TalkingBot()

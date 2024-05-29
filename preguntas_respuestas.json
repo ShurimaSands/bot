@@ -148,6 +148,23 @@
                     "ORG"
                 ]
             ]
+        },
+        "Quien es Black Panter?": {
+            "respuestas": [
+                "La Pantera Negra (T'Challa) (inglés: Black Panther) es un superhéroe de la compañía estadounidense Marvel Comics, creado por Stan Lee y Jack Kirby para el número 52 de The Fantastic Four."
+            ],
+            "entidades": [
+                [
+                    "Quien",
+                    "PERSON"
+                ]
+            ]
+        },
+        "Quienes fueron los templarios?": {
+            "respuestas": [
+                "Los caballeros templarios se establecieron en torno a 1119, y recibieron el reconocimiento papal en 1129. Fue una orden militar católica medieval cuyos miembros combinaban la destreza marcial con la vida monástica y defendían los lugares santos cristianos y a los peregrinos en Oriente Medio y en otros lugares."
+            ],
+            "entidades": []
         }
     }
 }
