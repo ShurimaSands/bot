@@ -107,21 +107,26 @@ def retroalimentar_respuesta(respuesta_correcta, pregunta, preguntas_respuestas)
     guardar_preguntas_respuestas(preguntas_respuestas)
     print("Nueva respuesta guardada.")
 
+#####BUSCAR EN GOOGLE FUNCIONAL 
+
 def buscar_en_google(query):
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         response = requests.get(f"https://www.google.com/search?q={query}", headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        resultados = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
-        if resultados:
-            return resultados[0].text
-        else:
-            return "Lo siento, no pude encontrar una respuesta clara en Google."
+        
+        # Extraer múltiples resultados
+        resultados = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd', limit=5)
+        respuestas = [resultado.text for resultado in resultados if resultado.text.strip()]
+        
+        return respuestas
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Google: {e}")
-        return "Lo siento, hubo un problema al intentar conectar con Google."
-    
+        return ["Lo siento, hubo un problema al intentar conectar con Google."]
+
+
+
 
     ###############BING JODIDO
 def buscar_en_bing(query):
@@ -130,16 +135,16 @@ def buscar_en_bing(query):
         response = requests.get(f"https://www.bing.com/search?q={query}", headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        resultados = soup.find_all('li', class_='b_algo')
-        if resultados:
-            return resultados[0].find('a').text
-        else:
-            return "Lo siento, no pude encontrar una respuesta clara en Bing."
+        
+        # Extraer múltiples resultados
+        resultados = soup.find_all('li', class_='b_algo', limit=5)
+        respuestas = [resultado.find('a').text for resultado in resultados if resultado.find('a') and resultado.find('a').text.strip()]
+        
+        return respuestas
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Bing: {e}")
-        return "Lo siento, hubo un problema al intentar conectar con Bing."
+        return ["Lo siento, hubo un problema al intentar conectar con Bing."]
     
-
     
 from spacy.matcher import Matcher
 

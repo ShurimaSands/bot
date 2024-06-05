@@ -34,6 +34,7 @@ class TalkingBot(tk.Tk):
         self.talking = talking
         self.title("Talking Bot")
         self.geometry("400x300")
+        self.nombre = None  # Inicializamos self.nombre como None
         self.create_widgets()
         self.engine = pyttsx3.init()
         self.voice_id = cargar_voz_seleccionada()
@@ -42,6 +43,7 @@ class TalkingBot(tk.Tk):
         self.preguntas_respuestas = cargar_preguntas_respuestas()
         self.usuarios = cargar_usuarios()
         self.get_user_name()
+        self.respuestas_dadas = set()  # Para almacenar respuestas dadas
 
     def create_widgets(self):
         self.entry = ttk.Entry(self)
@@ -58,6 +60,10 @@ class TalkingBot(tk.Tk):
         self.text_area.see(tk.END)
 
     def speak(self):
+        if self.nombre is None:
+            self.get_user_name()
+            return
+        
         text = self.entry.get()
         if text:
             self.display_message(f"{self.nombre}: {text}")
@@ -123,22 +129,25 @@ class TalkingBot(tk.Tk):
     def get_response(self, pregunta):
         respuesta = obtener_respuesta(pregunta, self.preguntas_respuestas)
         if respuesta:
-            return respuesta.format(datetime.datetime.now().strftime("%H:%M"))
-        else:
-            respuesta_especial = acciones_especiales(pregunta, self.preguntas_respuestas)
-            if respuesta_especial:
-                return respuesta_especial
-            else:
-                google_respuesta = buscar_en_google(pregunta)
-                if google_respuesta:
-                    return google_respuesta
-                else:
-                    bing_respuesta = buscar_en_bing(pregunta)
-                    if bing_respuesta:
-                        return bing_respuesta
-                    else:
-                        guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
-                        return "Lo siento, no tengo una respuesta para esa pregunta."
+            respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
+            if respuesta_formateada not in self.respuestas_dadas:
+                self.respuestas_dadas.add(respuesta_formateada)
+                return respuesta_formateada
+
+        # Si no hay respuesta en las preguntas-respuestas, buscar en Google y Bing
+        respuestas_google = buscar_en_google(pregunta)
+        respuestas_bing = buscar_en_bing(pregunta)
+        
+        # Combinar y filtrar respuestas
+        posibles_respuestas = respuestas_google + respuestas_bing
+        for respuesta in posibles_respuestas:
+            if respuesta not in self.respuestas_dadas:
+                self.respuestas_dadas.add(respuesta)
+                return respuesta
+
+        # Si todas las respuestas ya han sido dadas, usar una predeterminada
+        guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
+        return "Lo siento, no tengo una respuesta para esa pregunta."
 
 if __name__ == "__main__":
     talking = multiprocessing.Value('i', 0)

@@ -23,49 +23,9 @@
         ],
         "Quien es tu padre?": [
             "Mi padre es Pragmir"
-        ],
-        "Quien es Elon Musk?": {
-            "respuestas": [
-                " EL magnate y CEO de Tesla, Elon Musk, es famoso por impulsar grandes proyectos y empresas que aspiran a concretar grandes cambios en la humanidad. Ahora, afirma que sabe cómo satisfacer las necesidades de energía de la sociedad actual.\nBing dice: Lo siento, no pude encontrar una respuesta clara en Bing."
-            ],
-            "entidades": [
-                [
-                    "Quien es Elon Musk",
-                    "PERSON"
-                ]
-            ]
-        },
-        "Iron man": {
-            "respuestas": [
-                " Anthony Edward \"Tony\" Stark es un multimillonario magnate empresarial y filántropo estadounidense, playboy e ingenioso científico, que sufrió una grave lesión ...Iron Man (película)Iron Man 3Ron Man 2Iron Man 2020Anexo:Armadura de Iron Man\nBing dice: wikipedia.orghttps://es.wikipedia.org/wiki/Iron_Man"
-            ],
-            "entidades": []
-        },
-        "Quien es Cortana?": {
-            "respuestas": [
-                " Cortana es el asistente de productividad personal de Microsoft que te ayuda a ahorrar tiempo y centrarte en lo más importante. Para empezar, selecciona el icono de Cortana en la barra de tareas. Si no estás seguro de qué decir, intenta preguntando, \"¿qué puedes hacer?\"\nBing dice: Lo siento, no pude encontrar una respuesta clara en Bing."
-            ],
-            "entidades": [
-                [
-                    "Quien",
-                    "PERSON"
-                ],
-                [
-                    "Cortana",
-                    "GPE"
-                ]
-            ]
-        },
-        "Quien es marter Chieft?": {
-            "respuestas": [
-                " John-117, MCPON, más conocido como Master Chief (también conocido en español como Jefe Maestro), es un personaje y el protagonista principal de la serie de videojuegos Halo.\nBing dice: Lo siento, no pude encontrar una respuesta clara en Bing."
-            ],
-            "entidades": [
-                [
-                    "Quien es marter Chieft",
-                    "PERSON"
-                ]
-            ]
-        }
+        ]
+    
+ 
+
     }
 }
