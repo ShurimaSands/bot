@@ -24,7 +24,8 @@ from funciones import (
     responder_con_emocion,
     compartir_curiosidad,
     buscar_en_google,
-    buscar_en_bing
+    buscar_en_bing,
+    guardar_preguntas_respuestas
 )
 from face import face_animation
 
@@ -34,7 +35,7 @@ class TalkingBot(tk.Tk):
         self.talking = talking
         self.title("Talking Bot")
         self.geometry("400x300")
-        self.nombre = None  # Inicializamos self.nombre como None
+        self.nombre = None
         self.create_widgets()
         self.engine = pyttsx3.init()
         self.voice_id = cargar_voz_seleccionada()
@@ -43,7 +44,7 @@ class TalkingBot(tk.Tk):
         self.preguntas_respuestas = cargar_preguntas_respuestas()
         self.usuarios = cargar_usuarios()
         self.get_user_name()
-        self.respuestas_dadas = set()  # Para almacenar respuestas dadas
+        self.respuestas_dadas = set()
 
     def create_widgets(self):
         self.entry = ttk.Entry(self)
@@ -129,20 +130,22 @@ class TalkingBot(tk.Tk):
     def get_response(self, pregunta):
         respuesta = obtener_respuesta(pregunta, self.preguntas_respuestas)
         if respuesta:
-            respuesta_formateada = respuesta.format(datetime.datetime.now().strftime("%H:%M"))
-            if respuesta_formateada not in self.respuestas_dadas:
-                self.respuestas_dadas.add(respuesta_formateada)
-                return respuesta_formateada
+            return respuesta
 
-        # Si no hay respuesta en las preguntas-respuestas, buscar en Google y Bing
+        # Buscar en Google y Bing si no hay respuesta almacenada
         respuestas_google = buscar_en_google(pregunta)
         respuestas_bing = buscar_en_bing(pregunta)
-        
-        # Combinar y filtrar respuestas
         posibles_respuestas = respuestas_google + respuestas_bing
+
         for respuesta in posibles_respuestas:
             if respuesta not in self.respuestas_dadas:
                 self.respuestas_dadas.add(respuesta)
+                # Guardar la nueva pregunta y respuesta en el archivo JSON
+                if pregunta not in self.preguntas_respuestas:
+                    self.preguntas_respuestas[pregunta] = {'respuestas': [respuesta]}
+                else:
+                    self.preguntas_respuestas[pregunta]['respuestas'].append(respuesta)
+                guardar_preguntas_respuestas(self.preguntas_respuestas)
                 return respuesta
 
         # Si todas las respuestas ya han sido dadas, usar una predeterminada
