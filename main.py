@@ -21,7 +21,7 @@ from funciones import (
     cargar_usuarios,
     guardar_usuarios,
     saludar_usuario,
-    responder_con_emocion,
+   
     compartir_curiosidad,
     buscar_en_google,
     buscar_en_bing,
@@ -128,11 +128,15 @@ class TalkingBot(tk.Tk):
             self.name_window.destroy()
 
     def get_response(self, pregunta):
+        # Verificar si la pregunta ya tiene una respuesta almacenada
+        print("Verificando si la pregunta tiene una respuesta almacenada...")
         respuesta = obtener_respuesta(pregunta, self.preguntas_respuestas)
         if respuesta:
+            print(f"Respuesta encontrada en el archivo JSON: {respuesta}")
             return respuesta
 
-        # Buscar en Google y Bing si no hay respuesta almacenada
+        # Si no se encuentra respuesta en el archivo JSON, buscar en Google y Bing
+        print("No se encontró respuesta en el archivo JSON. Buscando en Google y Bing...")
         respuestas_google = buscar_en_google(pregunta)
         respuestas_bing = buscar_en_bing(pregunta)
         posibles_respuestas = respuestas_google + respuestas_bing

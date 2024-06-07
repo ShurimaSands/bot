@@ -22,14 +22,13 @@ def guardar_preguntas_respuestas(preguntas_respuestas):
         json.dump({'preguntas': preguntas_respuestas}, f, ensure_ascii=False, indent=4)
 
 def obtener_respuesta(pregunta, preguntas_respuestas):
-    pregunta = pregunta.lower()
-    respuestas = []
-    for key in preguntas_respuestas:
-        if key.lower() in pregunta:
-            respuestas.extend(preguntas_respuestas[key]['respuestas'])
-    return random.choice(respuestas) if respuestas else None
-
-
+    pregunta = pregunta.lower().strip()
+    print(f"Buscando respuesta para: {pregunta}")
+    if pregunta in preguntas_respuestas:
+        respuestas = preguntas_respuestas[pregunta]['respuestas']
+        print(f"Respuestas encontradas: {respuestas}")
+        return random.choice(respuestas) if respuestas else None
+    return None
 
 def listar_voces():
     motor = pyttsx3.init()
@@ -107,45 +106,32 @@ def retroalimentar_respuesta(respuesta_correcta, pregunta, preguntas_respuestas)
     guardar_preguntas_respuestas(preguntas_respuestas)
     print("Nueva respuesta guardada.")
 
-#####BUSCAR EN GOOGLE FUNCIONAL 
-
 def buscar_en_google(query):
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         response = requests.get(f"https://www.google.com/search?q={query}", headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Extraer múltiples resultados
         resultados = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd', limit=5)
         respuestas = [resultado.text for resultado in resultados if resultado.text.strip()]
-        
         return respuestas
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Google: {e}")
         return ["Lo siento, hubo un problema al intentar conectar con Google."]
 
-
-
-
-    ###############BING JODIDO
 def buscar_en_bing(query):
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         response = requests.get(f"https://www.bing.com/search?q={query}", headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Extraer múltiples resultados
         resultados = soup.find_all('li', class_='b_algo', limit=5)
         respuestas = [resultado.find('a').text for resultado in resultados if resultado.find('a') and resultado.find('a').text.strip()]
-        
         return respuestas
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Bing: {e}")
         return ["Lo siento, hubo un problema al intentar conectar con Bing."]
-    
-    
+
 from spacy.matcher import Matcher
 
 def clasificar_intencion(doc):
@@ -183,7 +169,7 @@ def acciones_especiales(pregunta, preguntas_respuestas):
     else:
         respuesta_google = buscar_en_google(pregunta)
         respuesta_bing = buscar_en_bing(pregunta)
-        respuesta = f" {respuesta_google}\nBing dice: {respuesta_bing}"
+        respuesta = f"Google dice: {respuesta_google}\nBing dice: {respuesta_bing}"
     
     if intencion == "Desconocido" and respuesta:
         if pregunta not in preguntas_respuestas:
@@ -207,7 +193,6 @@ def guardar_pregunta_no_respondida(pregunta, preguntas_respuestas):
     guardar_preguntas_respuestas(preguntas_respuestas)
     print(f"La pregunta '{pregunta}' se ha guardado para ser respondida más tarde.")
 
-# Nuevas funciones para interacciones adicionales
 def cargar_usuarios():
     try:
         with open('usuarios.json', 'r', encoding='utf-8') as f:
@@ -230,17 +215,13 @@ def obtener_nombre_usuario(usuarios):
 def saludar_usuario(nombre):
     return f"¡Hola, {nombre}! ¿Cómo puedo ayudarte hoy?"
 
-def responder_con_emocion(texto, emocion):
-    respuestas = {
-        'feliz': [f"¡{texto}!", f"¡Genial! {texto}"],
-        'triste': [f"Lamento oír eso, pero {texto}.", f"Lo siento, {texto}"],
-        'emocionado': [f"¡Wow! {texto}!", f"¡Increíble! {texto}"],
-    }
-    return random.choice(respuestas.get(emocion, [texto]))
-
 def compartir_curiosidad():
     curiosidades = [
         "¿Sabías que los koalas duermen hasta 22 horas al día?",
         "El corazón de un camarón está en su cabeza.",
     ]
     return random.choice(curiosidades)
+
+# Eliminar la función responder_con_emocion ya que no se está utilizando
+
+# Verificar si hay alguna otra función no utilizada y eliminarla si es necesario
