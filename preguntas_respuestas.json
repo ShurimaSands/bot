@@ -12,32 +12,40 @@
                 "Es momento de que te relajes."
             ]
         },
-        "Quien es Elon Musk?": {
+        "Que es Machine Learning?": {
             "respuestas": [
-                "Elon Musk es cofundador y director de Tesla, SpaceX, Neuralink y The Boring Company. Como cofundador y director general de Tesla, Elon supervisa el diseño, la ingeniería y la fabricación a nivel mundial de todos los vehículos eléctricos, productos de batería y productos de energía solar de la empresa.",
-                "Lo siento, hubo un problema al intentar conectar con Google."
+                "El machine learning es un subconjunto de la inteligencia artificial (IA). Se enfoca en enseñar a las computadoras para que aprendan de los datos y mejoren con la experiencia –en lugar de ser explícitamente programadas para hacerlo–."
+            ],
+            "entidades": [
+                [
+                    "Que es Machine Learning",
+                    "PERSON"
+                ]
             ]
         },
-        "Que edad tiene Elon Musk?": {
+        "Que es codigo binario?": {
             "respuestas": [
-                "Desde que empezaron a salir juntos hace más de cinco años, la relación entre el empresario Elon Musk (de 52 años) y la cantante Grimes (de 35) siempre ha sido agitada y ha hecho correr ríos de tinta.3 oct 2023"
+                "El código binario es una codificación usada para la representación de textos, o procesadores de instrucciones de computadora, utilizando el sistema binario. En informática y telecomunicaciones, el código binario se utiliza en la codificación de... Wikipedia"
+            ],
+            "entidades": []
+        },
+        "Que es Duoc Uc?": {
+            "respuestas": [
+                "Duoc UC es una Institución Católica de Educación Superior que, participando a la misión evangelizadora de la Iglesia, está al servicio del desarrollo de la sociedad por medio de la formación de personas, técnicos y profesionales, capaces de desplegar un proyecto de vida integral con una impronta ético-cristiana."
+            ],
+            "entidades": [
+                [
+                    "Que es Duoc Uc",
+                    "PERSON"
+                ]
             ]
         },
-        "Quien es Iron man?": {
+        "Donde se usa el codigo binario?": {
             "respuestas": [
-                "Iron Man (conocido en español como el Hombre de Hierro) es un superhéroe que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue creado por el escritor y editor Stan Lee en colaboración con el guionista Larry Lieber.",
-                "Anthony Edward Stark (Manhattan, Nueva York, Estados Unidos, 29 de mayo de 1970 - Nueva York, Estados Unidos, 17 de octubre de 2023), más conocido como Tony Stark, es un personaje interpretado por Robert Downey Jr."
-            ]
-        },
-        "Quien es Bruce Wayne?": {
-            "respuestas": [
-                "Bruce Wayne, también conocido por su alias de justiciero Batman, es un personaje ficticio del Universo Extendido de DC basado en el personaje del mismo nombre."
-            ]
-        },
-        "Cuando sale el juego delta force delta force hawk ops?": {
-            "respuestas": [
-                "También disponible en PlayStation 4 (Año 2024), PlayStation 5 (Año 2024), Xbox One (Año 2024), Xbox Series X/S (Año 2024), Android (Año 2024) y iPhone (Año 2024).Hace 2 horas"
-            ]
+                "En informática y telecomunicaciones, el código binario se utiliza con diversos métodos de codificación de datos, tales como cadenas de caracteres o cadenas de bits. Por su parte, el sistema binario es un sistema de numeración, una forma de realizar operaciones con ceros y unos. No necesita de otro sistema para existir.13 feb 2023"
+                
+            ],
+            "entidades": []
         }
     }
 }

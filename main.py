@@ -1,18 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
 import threading
-import time
-import datetime
-import pyttsx3
 import multiprocessing
+import pyttsx3
+
+# Inicializa pyttsx3
+engine = pyttsx3.init()
 from funciones import (
     cargar_preguntas_respuestas,
     obtener_respuesta,
     listar_voces,
-    seleccionar_voz_por_indice,
-    confirmar_voz,
-    guardar_voz_seleccionada,
-    cargar_voz_seleccionada,
+    seleccionar_voz,
     hablar,
     agregar_pregunta_respuesta,
     retroalimentar_respuesta,
@@ -21,7 +19,6 @@ from funciones import (
     cargar_usuarios,
     guardar_usuarios,
     saludar_usuario,
-   
     compartir_curiosidad,
     buscar_en_google,
     buscar_en_bing,
@@ -38,9 +35,8 @@ class TalkingBot(tk.Tk):
         self.nombre = None
         self.create_widgets()
         self.engine = pyttsx3.init()
-        self.voice_id = cargar_voz_seleccionada()
-        if not self.voice_id:
-            self.select_voice()
+        listar_voces()
+        self.voice_id = 0  # Puedes cambiar esto a la voz que desees usar
         self.preguntas_respuestas = cargar_preguntas_respuestas()
         self.usuarios = cargar_usuarios()
         self.get_user_name()
@@ -71,7 +67,6 @@ class TalkingBot(tk.Tk):
             respuesta = self.get_response(text)
             if respuesta:
                 self.display_message(f"Bot: {respuesta}")
-                duration = self.get_speech_duration(respuesta)
                 self.talking.value = 1
                 threading.Thread(target=self.speak_text, args=(respuesta,)).start()
             self.entry.delete(0, tk.END)
@@ -81,27 +76,21 @@ class TalkingBot(tk.Tk):
 
     def speak_text(self, text):
         hablar(text, self.voice_id, self.talking)
-        self.talking.value = 0
 
-    def get_speech_duration(self, text):
-        words_per_minute = 130
-        words = len(text.split())
-        return words / words_per_minute * 60
+    def get_response(self, pregunta):
+        print("Verificando si la pregunta tiene una respuesta almacenada...")
+        respuesta = obtener_respuesta(pregunta, self.preguntas_respuestas)
+        if respuesta:
+            print(f"Respuesta encontrada en el archivo JSON: {respuesta}")
+            return respuesta
 
-    def select_voice(self):
-        print("Voces disponibles:")
-        voces = listar_voces()
-        while True:
-            try:
-                indice = int(input("Elige el número de la voz que quieres utilizar: "))
-                self.voice_id = seleccionar_voz_por_indice(self.engine, indice)
-                if confirmar_voz(self.voice_id):
-                    guardar_voz_seleccionada(self.voice_id)
-                    break
-                else:
-                    print("Selección de voz no confirmada. Inténtalo de nuevo.")
-            except (IndexError, ValueError) as e:
-                print(f"Error: {e}. Por favor, elige un número válido.")
+        print("No se encontró respuesta en el archivo JSON. Buscando en Google y Bing...")
+        respuesta = acciones_especiales(pregunta, self.preguntas_respuestas)
+        if respuesta:
+            return respuesta
+
+        guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
+        return "Lo siento, no tengo una respuesta para esa pregunta."
 
     def get_user_name(self):
         self.name_window = tk.Toplevel(self)
@@ -126,35 +115,6 @@ class TalkingBot(tk.Tk):
             self.display_message(saludo_inicial)
             hablar(saludo_inicial, self.voice_id, self.talking)
             self.name_window.destroy()
-
-    def get_response(self, pregunta):
-        # Verificar si la pregunta ya tiene una respuesta almacenada
-        print("Verificando si la pregunta tiene una respuesta almacenada...")
-        respuesta = obtener_respuesta(pregunta, self.preguntas_respuestas)
-        if respuesta:
-            print(f"Respuesta encontrada en el archivo JSON: {respuesta}")
-            return respuesta
-
-        # Si no se encuentra respuesta en el archivo JSON, buscar en Google y Bing
-        print("No se encontró respuesta en el archivo JSON. Buscando en Google y Bing...")
-        respuestas_google = buscar_en_google(pregunta)
-        respuestas_bing = buscar_en_bing(pregunta)
-        posibles_respuestas = respuestas_google + respuestas_bing
-
-        for respuesta in posibles_respuestas:
-            if respuesta not in self.respuestas_dadas:
-                self.respuestas_dadas.add(respuesta)
-                # Guardar la nueva pregunta y respuesta en el archivo JSON
-                if pregunta not in self.preguntas_respuestas:
-                    self.preguntas_respuestas[pregunta] = {'respuestas': [respuesta]}
-                else:
-                    self.preguntas_respuestas[pregunta]['respuestas'].append(respuesta)
-                guardar_preguntas_respuestas(self.preguntas_respuestas)
-                return respuesta
-
-        # Si todas las respuestas ya han sido dadas, usar una predeterminada
-        guardar_pregunta_no_respondida(pregunta, self.preguntas_respuestas)
-        return "Lo siento, no tengo una respuesta para esa pregunta."
 
 if __name__ == "__main__":
     talking = multiprocessing.Value('i', 0)

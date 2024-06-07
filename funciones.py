@@ -5,6 +5,9 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+# Inicializa pyttsx3
+engine = pyttsx3.init()
+
 # Cargar el modelo de lenguaje de spaCy
 nlp = spacy.load("en_core_web_sm")
 
@@ -31,50 +34,19 @@ def obtener_respuesta(pregunta, preguntas_respuestas):
     return None
 
 def listar_voces():
-    motor = pyttsx3.init()
-    voces = motor.getProperty('voices')
-    for i, voz in enumerate(voces):
-        print(f"Voz {i}: {voz.name}")
-    return voces
+    voices = engine.getProperty('voices')
+    for idx, voice in enumerate(voices):
+        print(f"Voz {idx}: {voice.name}")
 
-def seleccionar_voz_por_indice(engine, indice):
-    voces = engine.getProperty('voices')
-    if 0 <= indice < len(voces):
-        engine.setProperty('voice', voces[indice].id)
-        return voces[indice].id
-    else:
-        raise IndexError("Índice de voz fuera de rango")
+def seleccionar_voz(voice_id):
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice', voices[voice_id].id)
 
-def confirmar_voz(voz_id, mensaje="Estas seguro? (escribe 'si' para confirmar): "):
-    motor = pyttsx3.init()
-    motor.setProperty('voice', voz_id)
-    motor.setProperty('rate', 150)
-    motor.say(mensaje)
-    motor.runAndWait()
-    confirmacion = input(mensaje)
-    return confirmacion.lower() == 'si'
-
-def guardar_voz_seleccionada(voz_id):
-    with open('voz_seleccionada.txt', 'w', encoding='utf-8') as f:
-        f.write(voz_id)
-
-def cargar_voz_seleccionada():
-    try:
-        with open('voz_seleccionada.txt', 'r', encoding='utf-8') as f:
-            voz_id = f.read().strip()
-        return voz_id
-    except FileNotFoundError:
-        return None
-
-def hablar(texto, voz_id=None, talking=None):
-    motor = pyttsx3.init()
-    if voz_id:
-        motor.setProperty('voice', voz_id)
-    motor.setProperty('rate', 150)
-    if talking is not None:
-        talking.value = 1
-    motor.say(texto)
-    motor.runAndWait()
+def hablar(texto, voice_id=None, talking=None):
+    if voice_id is not None:
+        seleccionar_voz(voice_id)
+    engine.say(texto)
+    engine.runAndWait()
     if talking is not None:
         talking.value = 0
 
@@ -113,11 +85,20 @@ def buscar_en_google(query):
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         resultados = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd', limit=5)
+        enlaces = soup.find_all('a', href=True, limit=5)
         respuestas = [resultado.text for resultado in resultados if resultado.text.strip()]
-        return respuestas
+        urls = [enlace['href'] for enlace in enlaces if 'url?q=' in enlace['href']]
+        
+        # Filtrar las respuestas irrelevantes
+        respuestas = [respuesta for respuesta in respuestas if len(respuesta.split()) > 2 and '?' not in respuesta]
+        
+        # Procesar URLs
+        urls = [url.split('&')[0].replace('/url?q=', '') for url in urls]
+        
+        return respuestas, urls
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Google: {e}")
-        return ["Lo siento, hubo un problema al intentar conectar con Google."]
+        return ["Lo siento, hubo un problema al intentar conectar con Google."], []
 
 def buscar_en_bing(query):
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -127,10 +108,32 @@ def buscar_en_bing(query):
         soup = BeautifulSoup(response.text, 'html.parser')
         resultados = soup.find_all('li', class_='b_algo', limit=5)
         respuestas = [resultado.find('a').text for resultado in resultados if resultado.find('a') and resultado.find('a').text.strip()]
-        return respuestas
+        urls = [resultado.find('a')['href'] for resultado in resultados if resultado.find('a')]
+        
+        # Filtrar las respuestas irrelevantes
+        respuestas = [respuesta for respuesta in respuestas if len(respuesta.split()) > 2 and '?' not in respuesta]
+        
+        return respuestas, urls
     except requests.exceptions.RequestException as e:
         print(f"Error al conectar con Bing: {e}")
-        return ["Lo siento, hubo un problema al intentar conectar con Bing."]
+        return ["Lo siento, hubo un problema al intentar conectar con Bing."], []
+
+def extraer_informacion_completa(url):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Extraer párrafos de la página
+        parrafos = soup.find_all('p')
+        texto_completo = ' '.join([p.text for p in parrafos if p.text.strip()])
+        
+        # Limitar el texto completo a una longitud razonable para evitar respuestas demasiado largas
+        return texto_completo[:2000] if len(texto_completo) > 2000 else texto_completo
+    except requests.exceptions.RequestException as e:
+        print(f"Error al conectar con {url}: {e}")
+        return "Lo siento, hubo un problema al intentar extraer información de la página."
 
 from spacy.matcher import Matcher
 
@@ -159,18 +162,31 @@ def acciones_especiales(pregunta, preguntas_respuestas):
 
     if intencion == "Clima":
         ciudad = pregunta.split("en")[-1].strip()
-        respuesta = buscar_en_google(f"clima en {ciudad}")
+        respuesta, urls = buscar_en_google(f"clima en {ciudad}")
     elif intencion in ["Hora", "Hora_en"]:
         ciudad = pregunta.split("en")[-1].strip() if "en" in pregunta else ""
         if ciudad:
-            respuesta = buscar_en_google(f"hora en {ciudad}")
+            respuesta, urls = buscar_en_google(f"hora en {ciudad}")
         else:
-            respuesta = buscar_en_google("hora actual")
+            respuesta, urls = buscar_en_google("hora actual")
     else:
-        respuesta_google = buscar_en_google(pregunta)
-        respuesta_bing = buscar_en_bing(pregunta)
-        respuesta = f"Google dice: {respuesta_google}\nBing dice: {respuesta_bing}"
-    
+        respuestas_google, urls_google = buscar_en_google(pregunta)
+        respuestas_bing, urls_bing = buscar_en_bing(pregunta)
+        respuestas_combined = respuestas_google + respuestas_bing
+        urls_combined = urls_google + urls_bing
+        
+        # Extraer información completa de los primeros enlaces
+        respuesta_completa = None
+        for url in urls_combined:
+            respuesta_completa = extraer_informacion_completa(url)
+            if respuesta_completa:
+                break
+        
+        if respuesta_completa:
+            respuesta = respuesta_completa
+        else:
+            respuesta = respuestas_combined[0] if respuestas_combined else "Lo siento, no tengo una respuesta para esa pregunta."
+
     if intencion == "Desconocido" and respuesta:
         if pregunta not in preguntas_respuestas:
             preguntas_respuestas[pregunta] = {
@@ -221,7 +237,3 @@ def compartir_curiosidad():
         "El corazón de un camarón está en su cabeza.",
     ]
     return random.choice(curiosidades)
-
-# Eliminar la función responder_con_emocion ya que no se está utilizando
-
-# Verificar si hay alguna otra función no utilizada y eliminarla si es necesario
