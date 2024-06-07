@@ -6,14 +6,25 @@ from OpenGL.GLU import *
 import numpy as np
 import multiprocessing
 
-def draw_circle(radius, segments, z=0):
-    glBegin(GL_LINE_LOOP)
-    for i in range(segments):
-        theta = 2.0 * np.pi * i / segments
-        x = radius * np.cos(theta)
-        y = radius * np.sin(theta)
-        glVertex3f(x, y, z)
-    glEnd()
+def draw_sphere(radius, lats, longs):
+    for i in range(0, lats + 1):
+        lat0 = np.pi * (-0.5 + float(i - 1) / lats)
+        z0 = radius * np.sin(lat0)
+        zr0 = radius * np.cos(lat0)
+
+        lat1 = np.pi * (-0.5 + float(i) / lats)
+        z1 = radius * np.sin(lat1)
+        zr1 = radius * np.cos(lat1)
+
+        glBegin(GL_LINE_STRIP)
+        for j in range(0, longs + 1):
+            lng = 2 * np.pi * float(j - 1) / longs
+            x = np.cos(lng)
+            y = np.sin(lng)
+
+            glVertex3f(x * zr0, y * zr0, z0)
+            glVertex3f(x * zr1, y * zr1, z1)
+        glEnd()
 
 def draw_face_3d(angle, talking):
     if talking.value:
@@ -21,24 +32,7 @@ def draw_face_3d(angle, talking):
     else:
         glColor3f(0.0, 1.0, 0.0)  # Green color otherwise
 
-    for i, r in enumerate(np.linspace(0.1, 2.0, 20)):
-        draw_circle(r, 50, z=i*0.1 if i % 2 == 0 else -i*0.1)
-
-    glColor3f(0.0, 0.0, 0.0)
-    glPushMatrix()
-    glTranslatef(-1, 1, 0)
-    draw_circle(0.25, 50)
-    glPopMatrix()
-
-    glPushMatrix()
-    glTranslatef(1, 1, 0)
-    draw_circle(0.25, 50)
-    glPopMatrix()
-
-    glPushMatrix()
-    glTranslatef(0, -1.5, 0)
-    draw_circle(1, 50)
-    glPopMatrix()
+    draw_sphere(2.0, 50, 50)
 
 def face_animation(talking):
     pygame.init()

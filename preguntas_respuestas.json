@@ -14,7 +14,8 @@
         },
         "Quien es Elon Musk?": {
             "respuestas": [
-                "Elon Musk es cofundador y director de Tesla, SpaceX, Neuralink y The Boring Company. Como cofundador y director general de Tesla, Elon supervisa el diseño, la ingeniería y la fabricación a nivel mundial de todos los vehículos eléctricos, productos de batería y productos de energía solar de la empresa."
+                "Elon Musk es cofundador y director de Tesla, SpaceX, Neuralink y The Boring Company. Como cofundador y director general de Tesla, Elon supervisa el diseño, la ingeniería y la fabricación a nivel mundial de todos los vehículos eléctricos, productos de batería y productos de energía solar de la empresa.",
+                "Lo siento, hubo un problema al intentar conectar con Google."
             ]
         },
         "Que edad tiene Elon Musk?": {
@@ -24,12 +25,18 @@
         },
         "Quien es Iron man?": {
             "respuestas": [
-                "Iron Man (conocido en español como el Hombre de Hierro) es un superhéroe que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue creado por el escritor y editor Stan Lee en colaboración con el guionista Larry Lieber."
+                "Iron Man (conocido en español como el Hombre de Hierro) es un superhéroe que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue creado por el escritor y editor Stan Lee en colaboración con el guionista Larry Lieber.",
+                "Anthony Edward Stark (Manhattan, Nueva York, Estados Unidos, 29 de mayo de 1970 - Nueva York, Estados Unidos, 17 de octubre de 2023), más conocido como Tony Stark, es un personaje interpretado por Robert Downey Jr."
             ]
         },
         "Quien es Bruce Wayne?": {
             "respuestas": [
                 "Bruce Wayne, también conocido por su alias de justiciero Batman, es un personaje ficticio del Universo Extendido de DC basado en el personaje del mismo nombre."
+            ]
+        },
+        "Cuando sale el juego delta force delta force hawk ops?": {
+            "respuestas": [
+                "También disponible en PlayStation 4 (Año 2024), PlayStation 5 (Año 2024), Xbox One (Año 2024), Xbox Series X/S (Año 2024), Android (Año 2024) y iPhone (Año 2024).Hace 2 horas"
             ]
         }
     }
