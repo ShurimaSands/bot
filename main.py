@@ -1,11 +1,8 @@
 import tkinter as tk
+import pyttsx3
 from tkinter import ttk
 import threading
 import multiprocessing
-import pyttsx3
-
-# Inicializa pyttsx3
-engine = pyttsx3.init()
 from funciones import (
     cargar_preguntas_respuestas,
     obtener_respuesta,

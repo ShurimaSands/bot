@@ -15,6 +15,7 @@ def cargar_preguntas_respuestas():
     try:
         with open('preguntas_respuestas.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
+        print("Preguntas y respuestas cargadas correctamente.")
         return data.get('preguntas', {})
     except FileNotFoundError:
         print("Archivo preguntas_respuestas.json no encontrado. Creando uno nuevo...")
@@ -24,13 +25,17 @@ def guardar_preguntas_respuestas(preguntas_respuestas):
     with open('preguntas_respuestas.json', 'w', encoding='utf-8') as f:
         json.dump({'preguntas': preguntas_respuestas}, f, ensure_ascii=False, indent=4)
 
+def normalizar_texto(texto):
+    return texto.lower().strip()
+
 def obtener_respuesta(pregunta, preguntas_respuestas):
-    pregunta = pregunta.lower().strip()
-    print(f"Buscando respuesta para: {pregunta}")
-    if pregunta in preguntas_respuestas:
-        respuestas = preguntas_respuestas[pregunta]['respuestas']
-        print(f"Respuestas encontradas: {respuestas}")
-        return random.choice(respuestas) if respuestas else None
+    pregunta_normalizada = normalizar_texto(pregunta)
+    print(f"Buscando respuesta para: {pregunta_normalizada}")
+    for pregunta_guardada in preguntas_respuestas:
+        if normalizar_texto(pregunta_guardada) == pregunta_normalizada:
+            respuestas = preguntas_respuestas[pregunta_guardada]['respuestas']
+            print(f"Respuestas encontradas: {respuestas}")
+            return random.choice(respuestas) if respuestas else None
     return None
 
 def listar_voces():

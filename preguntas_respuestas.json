@@ -1,6 +1,6 @@
 {
     "preguntas": {
-        "¿cómo estás?": {
+        "como estas?": {
             "respuestas": [
                 "Estoy bien, gracias por preguntar.",
                 "Muy bien, ¿y tú?"
@@ -25,6 +25,7 @@
         },
         "Que es codigo binario?": {
             "respuestas": [
+                "El código binario es una codificación usada para la representación de textos, o procesadores de instrucciones de computadora, utilizando el sistema binario. En informática y telecomunicaciones, el código binario se utiliza en la codificación de... Wikipedia",
                 "El código binario es una codificación usada para la representación de textos, o procesadores de instrucciones de computadora, utilizando el sistema binario. En informática y telecomunicaciones, el código binario se utiliza en la codificación de... Wikipedia"
             ],
             "entidades": []
@@ -43,9 +44,31 @@
         "Donde se usa el codigo binario?": {
             "respuestas": [
                 "En informática y telecomunicaciones, el código binario se utiliza con diversos métodos de codificación de datos, tales como cadenas de caracteres o cadenas de bits. Por su parte, el sistema binario es un sistema de numeración, una forma de realizar operaciones con ceros y unos. No necesita de otro sistema para existir.13 feb 2023"
-                
             ],
             "entidades": []
+        },
+        "Quien es tu padre?": {
+            "respuestas": [
+                "Mi padre es Pragmir.",
+                "Jesús contestó: —Como ustedes no saben quién soy yo, tampoco saben quién es mi Padre. Si me conocieran a mí, también conocerían a mi Padre. NVI. Ellos ..."
+            ],
+            "entidades": [
+                [
+                    "Quien es tu padre",
+                    "PERSON"
+                ]
+            ]
+        },
+        "Quien es Iron man?": {
+            "respuestas": [
+                "Iron Man (conocido en español como el Hombre de Hierro) es un superhéroe que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue creado por el escritor y editor Stan Lee en colaboración con el guionista Larry Lieber."
+            ],
+            "entidades": [
+                [
+                    "Quien es Iron",
+                    "PERSON"
+                ]
+            ]
         }
     }
 }
