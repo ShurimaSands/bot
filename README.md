@@ -1,7 +1,7 @@
 
 # Talking Bot
 
-Talking Bot es una aplicación interactiva que utiliza reconocimiento de voz y animaciones gráficas para responder a preguntas y realizar diversas acciones. La aplicación está construida con Python y utiliza varias bibliotecas para su funcionalidad.
+Talking Bot es una aplicación interactiva que utiliza animaciones gráficas para responder a preguntas y realizar diversas acciones. La aplicación está construida con Python y utiliza varias bibliotecas para su funcionalidad.
 
 ## Características
 
