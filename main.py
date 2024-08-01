@@ -3,6 +3,7 @@ import pyttsx3
 from tkinter import ttk
 import threading
 import multiprocessing
+import time
 from funciones import (
     cargar_preguntas_respuestas,
     obtener_respuesta,
@@ -24,14 +25,17 @@ from funciones import (
 from face import face_animation
 
 class TalkingBot(tk.Tk):
-    def __init__(self, talking):
+    def __init__(self, talking, queue):
         super().__init__()
         self.talking = talking
+        self.queue = queue
         self.title("Talking Bot")
         self.geometry("400x300")
         self.nombre = None
         self.create_widgets()
         self.engine = pyttsx3.init()
+        self.engine.connect('started-utterance', self.on_speak_start)
+        self.engine.connect('finished-utterance', self.on_speak_end)
         listar_voces()
         self.voice_id = 0  # Puedes cambiar esto a la voz que desees usar
         self.preguntas_respuestas = cargar_preguntas_respuestas()
@@ -53,6 +57,12 @@ class TalkingBot(tk.Tk):
         self.text_area.insert(tk.END, message + "\n")
         self.text_area.see(tk.END)
 
+    def on_speak_start(self, name):
+        self.talking.value = 1
+
+    def on_speak_end(self, name, completed):
+        self.talking.value = 0
+
     def speak(self):
         if self.nombre is None:
             self.get_user_name()
@@ -64,15 +74,18 @@ class TalkingBot(tk.Tk):
             respuesta = self.get_response(text)
             if respuesta:
                 self.display_message(f"Bot: {respuesta}")
-                self.talking.value = 1
                 threading.Thread(target=self.speak_text, args=(respuesta,)).start()
+                for letter in respuesta:
+                    self.queue.put(letter)
+                    time.sleep(0.1)  # Simula el tiempo de pronunciación de cada letra
             self.entry.delete(0, tk.END)
 
     def speak_event(self, event):
         self.speak()
 
     def speak_text(self, text):
-        hablar(text, self.voice_id, self.talking)
+        self.engine.say(text)
+        self.engine.runAndWait()
 
     def get_response(self, pregunta):
         print("Verificando si la pregunta tiene una respuesta almacenada...")
@@ -115,9 +128,10 @@ class TalkingBot(tk.Tk):
 
 if __name__ == "__main__":
     talking = multiprocessing.Value('i', 0)
-    p = multiprocessing.Process(target=face_animation, args=(talking,))
+    queue = multiprocessing.Queue()
+    p = multiprocessing.Process(target=face_animation, args=(talking, queue))
     p.start()
 
-    app = TalkingBot(talking)
+    app = TalkingBot(talking, queue)
     app.mainloop()
     p.terminate()

@@ -70,5 +70,21 @@
                 ]
             ]
         }
+       ,
+        "Cuantas regiones tiene Chile?": {
+            "respuestas": [
+                "En términos administrativos, Chile se divide en 16 regiones, que son, de norte a sur: A cargo de cada una se encuentra el Gobernador Regional, ..."
+            ],
+            "entidades": [
+                [
+                    "Cuantas",
+                    "ORG"
+                ],
+                [
+                    "Chile",
+                    "GPE"
+                ]
+            ]
+        }
     }
 }

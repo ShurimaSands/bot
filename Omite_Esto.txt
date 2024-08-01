@@ -1,7 +1,0 @@
-def obtener_respuesta(pregunta, preguntas_respuestas):
-    pregunta = pregunta.lower()
-    respuestas = []
-    for key in preguntas_respuestas:
-        if key.lower() in pregunta:
-            respuestas.extend(preguntas_respuestas[key])
-    return random.choice(respuestas) if respuestas else None
